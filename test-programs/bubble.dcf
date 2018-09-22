@@ -1,0 +1,55 @@
+class Program {
+  int arr[500];
+
+  void swap(int i1, int i2) {
+    int tmp;
+    // callout("printf", "Swapped %d %d \n", arr[i1], arr[i2]);
+    tmp = arr[i2];
+    arr[i2] = arr[i1];
+    arr[i1] = tmp;
+  }
+
+  void bubsort(int N) {
+    boolean swapped;
+    for i = 0, 2 {
+      swapped = false;
+      for i = 1, N - 1 {
+        if (arr[i - 1] > arr[i]) {
+          swap(i - 1, i);
+          swapped = true;
+        }
+      }
+      if (swapped == true) {
+        i = 0;
+      } else {
+        i = 1;
+      }
+    }
+  }
+    
+  void main() {
+    int N;
+    N = 10;
+
+    arr[0] = 5;
+    arr[1] = 2;
+    arr[2] = 3;
+    arr[3] = 1;
+    arr[4] = 0;
+    arr[5] = 4;
+    arr[6] = 7;
+    arr[7] = 11;
+    arr[8] = 9;
+    arr[9] = 10;
+
+    bubsort(N);
+
+    callout("printf", "Sorted array: ");
+    for i = 0, N - 1 {
+      callout("printf", "%d ", arr[i]);
+    }
+    callout("printf", "\n");
+  }
+
+
+}
