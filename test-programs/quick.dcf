@@ -1,0 +1,82 @@
+class Program {
+  int arr[100];
+  int length;
+
+  void swap(int i1, int i2) {
+    int tmp;
+    // callout("printf", "Swapped %d %d \n", arr[i1], arr[i2]);
+    tmp = arr[i2];
+    arr[i2] = arr[i1];
+    arr[i1] = tmp;
+  }
+
+  int partition(int p, int r) {
+    int x, i, j;
+    int z;
+
+    x = arr[p];
+    i = p - 1;
+    j = r + 1;
+
+    for z = 0, length * length {
+      j = j - 1;
+      for a = 0, length {
+        if (arr[j] <= x) {
+          break;
+        }
+        j = j - 1;
+      }
+
+      for a = i + 1, length {
+        if (arr[a] >= x) {
+          i = a;
+          break;
+        }
+      }
+
+      if (i < j) {
+        swap(i, j);
+      } else {
+        return j;
+      }
+    }
+    return -1;
+  }
+
+  void quicksort(int p, int r) {
+    int q;
+
+    if (p < r) {
+      q = partition(p, r);
+      quicksort(p, q);
+      quicksort(q + 1, r);
+    }
+  }
+
+  void main() {
+    int temp;
+
+    length = 10; // adjust for sort length
+
+    callout("printf", "Generating random array having %d elements\n", length);
+
+    callout("srandom", 25);
+
+    for i = 0, length {
+      temp = callout("random");
+      arr[i] = temp;
+    }
+
+    callout("printf", "\nBefore sorting:\n");
+    for i = 0, length {
+      callout("printf", "%d\n", arr[i]);
+    }
+
+    quicksort(0, length - 1);
+
+    callout("printf", "\nAfter sorting\n");
+    for i = 0, length {
+      callout("printf", "%d\n", arr[i]);
+    }
+  }
+}
