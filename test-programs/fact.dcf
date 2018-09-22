@@ -1,0 +1,16 @@
+class Program {
+  int factorial(int n) {
+    if (n <= 1) {
+      return 1;
+    } else {
+      return n * factorial(n - 1);
+    }
+  }
+
+  void main() {
+    int result, n;
+    n = 5;
+    result = factorial(n);
+    callout("printf", "factorial(%d) = %d\n", n, result);
+  }
+}
