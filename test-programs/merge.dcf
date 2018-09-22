@@ -1,0 +1,69 @@
+class Program {
+  int arr[100], barr[100];
+  int N;
+
+  void copyback() {
+    for i = 0, N-1 {
+      arr[i] = barr[i];
+    }
+  }
+
+  void merge(int l, int mid, int r) {
+    int i, j, k;
+    i = l;
+    j = mid;
+
+    for k = l, r {
+      if (i < mid && (j > r || arr[i] <= arr[j])) {
+        barr[k] = arr[i];
+        i = i + 1;
+      } else {
+        barr[k] = arr[j];
+        j = j + 1;
+      }
+    }
+
+    copyback();
+  }
+
+  void mergesort(int l, int r) {
+    int mid;
+
+    if (l == r) {
+      return;
+    }
+
+    mid = l + (r - l) / 2;
+    mergesort(l, mid);
+    mergesort(mid+1, r);
+
+    merge(l, mid, r);
+  }
+
+  void main() {
+    int temp;
+
+    N = 10; // adjust for sort N
+
+    callout("printf", "Generating random array having %d elements\n", N);
+
+    callout("srandom", 25);
+
+    for i = 0, N {
+      temp = callout("random");
+      arr[i] = temp;
+    }
+
+    callout("printf", "\nBefore sorting:\n");
+    for i = 0, N {
+      callout("printf", "%d\n", arr[i]);
+    }
+
+    mergesort(0, N - 1);
+
+    callout("printf", "\nAfter sorting\n");
+    for i = 0, N {
+      callout("printf", "%d\n", arr[i]);
+    }
+  }
+}
