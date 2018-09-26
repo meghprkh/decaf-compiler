@@ -4,7 +4,7 @@ int lineno = 0;
 %}
 
 digit [0-9]
-alpha [a-zA-Z]
+alpha [a-zA-Z_]
 alphanum {alpha}|{digit}
 char [ !#-&\(-\[\]-~]|\\\"|\\\'|\\\\|\\t|\\n
 hex_digit {digit}|[a-fA-F]
