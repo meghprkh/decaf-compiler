@@ -10,7 +10,18 @@ char [ !#-&\(-\[\]-~]|\\\"|\\\'|\\\\|\\t|\\n
 hex_digit {digit}|[a-fA-F]
 
 %%
+"boolean" { return BOOLEAN; }
+"break" { return BREAK; }
 "callout" { return CALLOUT; }
+"class" { return CLASS; }
+"continue" { return CONTINUE; }
+"else" { return ELSE; }
+"for" { return FOR; }
+"if" { return IF; }
+"int" { return INT; }
+"return" { return RETURN; }
+"void" { return VOID; }
+
 "true"|"false" { return BOOL_LITERAL; }
 \"{char}*\" { return STRING_LITERAL; }
 \'{char}\' { return CHAR_LITERAL; }
@@ -24,7 +35,14 @@ hex_digit {digit}|[a-fA-F]
 ")"					{return ')';}
 "["					{return '[';}
 "]"					{return ']';}
+"{"					{return '{';}
+"}"					{return '}';}
 ","					{return ',';}
+";"					{return ';';}
+
+"="					{return ASSIGN_EQ;}
+"+="				{return ASSIGN_PE;}
+"-="				{return ASSIGN_ME;}
 
 "+"					{return '+';}
 "*"					{return '*';}

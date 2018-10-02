@@ -3,9 +3,10 @@
 #define YYDEBUG 1
 %}
 
+%token BOOLEAN BREAK CALLOUT CLASS CONTINUE ELSE FOR IF INT RETURN VOID
 %token ID
-%token CALLOUT
 %token STRING_LITERAL INT_LITERAL CHAR_LITERAL BOOL_LITERAL
+%token ASSIGN_EQ ASSIGN_PE ASSIGN_ME
 %token LT GT LE GE
 %token EQ NE
 %token AND OR
@@ -13,6 +14,90 @@
 %left '*' '/'
 
 %%
+
+program
+	: CLASS ID '{' field_decls method_decls '}'
+	;
+
+field_decls
+	: field_decls field_decl
+	| %empty
+	;
+
+field_decl
+	: type field_decl_args ';'
+	;
+
+field_decl_args
+	: ID ',' field_decl_args
+	| ID '[' INT_LITERAL ']' ',' field_decl_args
+	| ID
+	| ID '[' INT_LITERAL ']'
+	;
+
+method_decls
+	: method_decl method_decls
+	| %empty
+	;
+
+method_decl
+	: type ID '(' method_decl_args ')' block
+	| VOID ID '(' method_decl_args ')' block
+	;
+
+method_decl_args
+	: method_decl_arg ',' method_decl_args
+	| method_decl_arg
+	| %empty
+	;
+
+method_decl_arg
+	: type ID
+	;
+
+block
+	: '{' var_decls statements '}'
+	;
+
+var_decls
+	: var_decl var_decls
+	| %empty
+	;
+
+var_decl
+	: type var_decl_vars ';'
+	;
+
+var_decl_vars
+	: ID ',' var_decl_vars
+	| ID
+	;
+
+statements
+	: statement statements
+	| %empty
+	;
+
+type: INT | BOOLEAN ;
+
+statement
+	: location assign_op expr ';'
+	| method_call ';'
+	| IF '(' expr ')' block ELSE block
+	| IF '(' expr ')' block
+	| FOR ID ASSIGN_EQ expr ',' expr block
+	| RETURN expr ';'
+	| RETURN ';'
+	| BREAK ';'
+	| CONTINUE ';'
+	| block
+	;
+
+assign_op
+	: ASSIGN_EQ
+	| ASSIGN_PE
+	| ASSIGN_ME
+	;
 
 expr
 	: location
@@ -40,6 +125,7 @@ method_name: ID;
 method_args
 	: expr ',' method_args
 	| expr
+	| %empty
 	;
 
 callout_args
