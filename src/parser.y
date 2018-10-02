@@ -7,11 +7,16 @@
 %token ID
 %token STRING_LITERAL INT_LITERAL CHAR_LITERAL BOOL_LITERAL
 %token ASSIGN_EQ ASSIGN_PE ASSIGN_ME
-%token LT GT LE GE
-%token EQ NE
-%token AND OR
+
+%left OR
+%left AND
+%left EQ NE
+%left LT LE GE GT
 %left '+' '-'
-%left '*' '/'
+%left '*' '/' '%'
+%nonassoc '!'
+
+%expect 13
 
 %%
 
