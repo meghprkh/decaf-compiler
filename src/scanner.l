@@ -10,6 +10,8 @@ char [ !#-&\(-\[\]-~]|\\\"|\\\'|\\\\|\\t|\\n
 hex_digit {digit}|[a-fA-F]
 
 %%
+"//"[^\n]* {++lineno;}
+
 "boolean" { return BOOLEAN; }
 "break" { return BREAK; }
 "callout" { return CALLOUT; }
