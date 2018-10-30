@@ -1,6 +1,8 @@
 %{
+#include "ast/classes.hpp"
 #include "parser.tab.hpp"
 extern int lineno;
+extern union Node yylval;
 %}
 
 digit [0-9]
@@ -27,7 +29,7 @@ hex_digit {digit}|[a-fA-F]
 "true"|"false" { return BOOL_LITERAL; }
 \"{char}*\" { return STRING_LITERAL; }
 \'{char}\' { return CHAR_LITERAL; }
-{digit}+ { return INT_LITERAL; }
+{digit}+ { yylval.token = strdup(yytext); return INT_LITERAL; }
 "0x"{hex_digit}+ { return INT_LITERAL; }
 {alpha}{alphanum}*	{ return ID; }
 

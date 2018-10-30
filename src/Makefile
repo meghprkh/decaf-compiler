@@ -4,4 +4,4 @@ parser: parser.ypp scanner.l
 		g++ -o decaf parser.tab.cpp lex.yy.c -ll
 
 clean:
-		rm decaf parser.output
+		rm -f decaf parser.tab.* lex.yy.c

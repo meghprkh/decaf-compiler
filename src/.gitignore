@@ -4,3 +4,5 @@ parser.tab.hpp
 decaf
 parser
 parser.output
+tmp*
+a.out

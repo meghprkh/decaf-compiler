@@ -1,16 +1,20 @@
 %{
 #include <stdio.h>
+#include "ast/classes.hpp"
 
 extern FILE *yyin;
 extern int yylex (void);
 void yyerror (const char *s);
 int lineno = 0;
 
+class Base* start;
+extern union Node yylval;
+
 %}
 
 %token BOOLEAN BREAK CALLOUT CLASS CONTINUE ELSE FOR IF INT RETURN VOID
 %token ID
-%token STRING_LITERAL INT_LITERAL CHAR_LITERAL BOOL_LITERAL
+%token <token> STRING_LITERAL INT_LITERAL CHAR_LITERAL BOOL_LITERAL
 %token ASSIGN_EQ ASSIGN_PE ASSIGN_ME
 
 %left OR
@@ -21,99 +25,19 @@ int lineno = 0;
 %left '*' '/' '%'
 %nonassoc '!'
 
-%expect 13
+%type <b> program
+%type <b> expr
+%type <b> literal
 
 %%
 
-program
-	: CLASS ID '{' field_decls method_decls '}'
-	;
-
-field_decls
-	: field_decls field_decl
-	| %empty
-	;
-
-field_decl
-	: type field_decl_args ';'
-	;
-
-field_decl_args
-	: ID ',' field_decl_args
-	| ID '[' INT_LITERAL ']' ',' field_decl_args
-	| ID
-	| ID '[' INT_LITERAL ']'
-	;
-
-method_decls
-	: method_decl method_decls
-	| %empty
-	;
-
-method_decl
-	: type ID '(' method_decl_args ')' block
-	| VOID ID '(' method_decl_args ')' block
-	;
-
-method_decl_args
-	: method_decl_arg ',' method_decl_args
-	| method_decl_arg
-	| %empty
-	;
-
-method_decl_arg
-	: type ID
-	;
-
-block
-	: '{' var_decls statements '}'
-	;
-
-var_decls
-	: var_decl var_decls
-	| %empty
-	;
-
-var_decl
-	: type var_decl_vars ';'
-	;
-
-var_decl_vars
-	: ID ',' var_decl_vars
-	| ID
-	;
-
-statements
-	: statement statements
-	| %empty
-	;
-
-type: INT | BOOLEAN ;
-
-statement
-	: location assign_op expr ';'
-	| method_call ';'
-	| IF '(' expr ')' block ELSE block
-	| IF '(' expr ')' block
-	| FOR ID ASSIGN_EQ expr ',' expr block
-	| RETURN expr ';'
-	| RETURN ';'
-	| BREAK ';'
-	| CONTINUE ';'
-	| block
-	;
-
-assign_op
-	: ASSIGN_EQ
-	| ASSIGN_PE
-	| ASSIGN_ME
-	;
+program: expr  { $$ = $1; start = $$; }
 
 expr
 	: location
 	| method_call
-	| literal
-	| expr bin_op expr
+	| literal           { $$ = $1; }
+	| expr '+' expr     { $$ = new BinExpr($1, OpType::add, $3); }
 	| '-' expr
 	| '!' expr
 	| '(' expr ')'
@@ -146,7 +70,7 @@ callout_args
 	;
 
 literal
-	: INT_LITERAL
+	: INT_LITERAL      { $$ = new IntLiteral($1); }
 	| CHAR_LITERAL
 	| BOOL_LITERAL
 	;
@@ -179,6 +103,8 @@ int main(int argc, char **argv)
 
 	yyin = fopen(argv[1], "r");
 	yyparse();
+
+	start->print();
 }
 
 void yyerror(const char *s)
