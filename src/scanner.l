@@ -1,6 +1,6 @@
 %{
 #include "parser.tab.hpp"
-int lineno = 0;
+extern int lineno;
 %}
 
 digit [0-9]
