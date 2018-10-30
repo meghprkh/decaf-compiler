@@ -8,13 +8,13 @@ using namespace std;
 
 class Base {
 public:
-  virtual void print() = 0;
+  virtual int print() = 0;
 };
 
 class Expr: public Base {
 // Anything that can be evaluated
 public:
-  virtual void print() = 0;
+  virtual int print() = 0;
 };
 
 
@@ -26,3 +26,9 @@ union Node {
 
 typedef union Node YYSTYPE;
 #define YYSTYPE_IS_DECLARED 1
+
+extern int pidcount;
+void printText(int v);
+void printText(char v);
+void printText(const char *v);
+void printText(string v);

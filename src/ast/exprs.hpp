@@ -8,7 +8,7 @@ enum class CondOp  { _and, _or };
 class ArithExpr: public Expr {
 public:
   ArithExpr(Expr* _l, ArithOp _op, Expr* _r);
-  void print();
+  int print();
 private:
   Expr *l, *r;
   ArithOp op;
@@ -17,7 +17,7 @@ private:
 class RelExpr: public Expr {
 public:
   RelExpr(Expr* _l, RelOp _op, Expr* _r);
-  void print();
+  int print();
 private:
   Expr *l, *r;
   RelOp op;
@@ -26,7 +26,7 @@ private:
 class EqExpr: public Expr {
 public:
   EqExpr(Expr* _l, EqOp _op, Expr* _r);
-  void print();
+  int print();
 private:
   Expr *l, *r;
   EqOp op;
@@ -35,7 +35,7 @@ private:
 class CondExpr: public Expr {
 public:
   CondExpr(Expr* _l, CondOp _op, Expr* _r);
-  void print();
+  int print();
 private:
   Expr *l, *r;
   CondOp op;

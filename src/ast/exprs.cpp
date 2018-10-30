@@ -24,51 +24,55 @@ CondExpr::CondExpr(Expr* _l, CondOp _op, Expr* _r) {
   r = _r;
 }
 
-void ArithExpr::print() {
-  l->print();
-  printf(" ");
+int ArithExpr::print() {
+  int _l = l->print();
+  int _r = r->print();
   switch (op) {
-    case ArithOp::add : printf("+"); break;
-    case ArithOp::sub : printf("-"); break;
-    case ArithOp::mul : printf("*"); break;
-    case ArithOp::div : printf("/"); break;
-    case ArithOp::mod : printf("%%"); break;
+    case ArithOp::add : printText("+"); break;
+    case ArithOp::sub : printText("-"); break;
+    case ArithOp::mul : printText("*"); break;
+    case ArithOp::div : printText("/"); break;
+    case ArithOp::mod : printText("%%"); break;
   }
-  printf(" ");
-  r->print();
+  printf("%d-->%d\n", pidcount, _l);
+  printf("%d-->%d\n", pidcount, _r);
+  return pidcount;
 }
 
-void RelExpr::print() {
-  l->print();
-  printf(" ");
+int RelExpr::print() {
+  int _l = l->print();
+  int _r = r->print();
   switch (op) {
-    case RelOp::lt : printf("<"); break;
-    case RelOp::gt : printf(">"); break;
-    case RelOp::le : printf("<="); break;
-    case RelOp::ge : printf(">="); break;
+    case RelOp::lt : printText("<"); break;
+    case RelOp::gt : printText(">"); break;
+    case RelOp::le : printText("<="); break;
+    case RelOp::ge : printText(">="); break;
   }
-  printf(" ");
-  r->print();
+  printf("%d-->%d\n", pidcount, _l);
+  printf("%d-->%d\n", pidcount, _r);
+  return pidcount;
 }
 
-void EqExpr::print() {
-  l->print();
-  printf(" ");
+int EqExpr::print() {
+  int _l = l->print();
+  int _r = r->print();
   switch (op) {
-    case EqOp::eq : printf("=="); break;
-    case EqOp::ne : printf("!="); break;
+    case EqOp::eq : printText("=="); break;
+    case EqOp::ne : printText("!="); break;
   }
-  printf(" ");
-  r->print();
+  printf("%d-->%d\n", pidcount, _l);
+  printf("%d-->%d\n", pidcount, _r);
+  return pidcount;
 }
 
-void CondExpr::print() {
-  l->print();
-  printf(" ");
+int CondExpr::print() {
+  int _l = l->print();
+  int _r = r->print();
   switch (op) {
-    case CondOp::_and : printf("&&"); break;
-    case CondOp::_or : printf("||"); break;
+    case CondOp::_and : printText("&&"); break;
+    case CondOp::_or : printText("||"); break;
   }
-  printf(" ");
-  r->print();
+  printf("%d-->%d\n", pidcount, _l);
+  printf("%d-->%d\n", pidcount, _r);
+  return pidcount;
 }

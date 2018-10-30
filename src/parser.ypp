@@ -9,6 +9,7 @@ int lineno = 0;
 
 class Base* start;
 extern union Node yylval;
+int pidcount;
 
 %}
 
@@ -124,6 +125,8 @@ int main(int argc, char **argv)
 	yyin = fopen(argv[1], "r");
 	yyparse();
 
+	pidcount = 0;
+	printf("graph TD\n");
 	start->print();
 }
 

@@ -16,18 +16,22 @@ StringLiteral::StringLiteral(const char *x) {
   value = string(x);
 }
 
-void IntLiteral::print() {
-  printf("%d", value);
+int IntLiteral::print() {
+  printText(value);
+  return pidcount;
 }
 
-void CharLiteral::print() {
-  printf("\'%c\'", value);
+int CharLiteral::print() {
+  printText(value);
+  return pidcount;
 }
 
-void BoolLiteral::print() {
-  printf("%s", value ? "true" : "false");
+int BoolLiteral::print() {
+  printText(value ? "true" : "false");
+  return pidcount;
 }
 
-void StringLiteral::print() {
-  cout << '\"' << value << '\"';
+int StringLiteral::print() {
+  printText(value);
+  return pidcount;
 }

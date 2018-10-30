@@ -2,13 +2,13 @@
 
 class Literal: public Expr {
 public:
-  virtual void print() = 0;
+  virtual int print() = 0;
 };
 
 class IntLiteral: public Literal {
 public:
   IntLiteral(const char *x);
-  void print();
+  int print();
 private:
   int value;
 };
@@ -16,7 +16,7 @@ private:
 class CharLiteral: public Literal {
 public:
   CharLiteral(const char *x);
-  void print();
+  int print();
 private:
   char value;
 };
@@ -24,7 +24,7 @@ private:
 class BoolLiteral: public Literal {
 public:
   BoolLiteral(const char *x);
-  void print();
+  int print();
 private:
   bool value;
 };
@@ -32,7 +32,7 @@ private:
 class StringLiteral: public Literal {
 public:
   StringLiteral(const char *x);
-  void print();
+  int print();
 private:
   string value;
 };
