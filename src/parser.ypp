@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "ast/classes.hpp"
+#include "ast/all.hpp"
 
 extern FILE *yyin;
 extern int yylex (void);
@@ -25,9 +25,13 @@ extern union Node yylval;
 %left '*' '/' '%'
 %nonassoc '!'
 
-%type <b> program
-%type <b> expr
-%type <b> literal
+%type <base> program
+%type <expr> expr
+%type <expr> arith_expr
+%type <expr> rel_expr
+%type <expr> eq_expr
+%type <expr> cond_expr
+%type <expr> literal
 
 %%
 
@@ -37,10 +41,38 @@ expr
 	: location
 	| method_call
 	| literal           { $$ = $1; }
-	| expr '+' expr     { $$ = new BinExpr($1, OpType::add, $3); }
+	| arith_expr        { $$ = $1; }
+	| rel_expr          { $$ = $1; }
+	| eq_expr           { $$ = $1; }
+	| cond_expr         { $$ = $1; }
 	| '-' expr
 	| '!' expr
 	| '(' expr ')'
+	;
+
+arith_expr
+	: expr '+' expr     { $$ = new ArithExpr($1, ArithOp::add, $3); }
+	| expr '-' expr     { $$ = new ArithExpr($1, ArithOp::sub, $3); }
+	| expr '*' expr     { $$ = new ArithExpr($1, ArithOp::mul, $3); }
+	| expr '/' expr     { $$ = new ArithExpr($1, ArithOp::div, $3); }
+	| expr '%' expr     { $$ = new ArithExpr($1, ArithOp::mod, $3); }
+	;
+
+rel_expr
+	: expr LT expr      { $$ = new RelExpr($1, RelOp::lt, $3); }
+	| expr GT expr      { $$ = new RelExpr($1, RelOp::gt, $3); }
+	| expr LE expr      { $$ = new RelExpr($1, RelOp::le, $3); }
+	| expr GE expr      { $$ = new RelExpr($1, RelOp::ge, $3); }
+	;
+
+eq_expr
+	: expr EQ expr      { $$ = new EqExpr($1, EqOp::eq, $3); }
+	| expr NE expr      { $$ = new EqExpr($1, EqOp::ne, $3); }
+	;
+
+cond_expr
+	: expr AND expr     { $$ = new CondExpr($1, CondOp::_and, $3); }
+	| expr OR expr      { $$ = new CondExpr($1, CondOp::_or, $3); }
 	;
 
 location
@@ -71,21 +103,9 @@ callout_args
 
 literal
 	: INT_LITERAL      { $$ = new IntLiteral($1); }
-	| CHAR_LITERAL
-	| BOOL_LITERAL
+	| CHAR_LITERAL     { $$ = new CharLiteral($1); }
+	| BOOL_LITERAL     { $$ = new BoolLiteral($1); }
 	;
-
-bin_op
-	: arith_op
-	| rel_op
-	| eq_op
-	| cond_op
-	;
-
-arith_op: '+' | '-' | '*' | '/' | '%';
-rel_op: LT | GT | LE | GE;
-eq_op: EQ | NE;
-cond_op: AND | OR;
 
 %%
 

@@ -1,5 +1,5 @@
 %{
-#include "ast/classes.hpp"
+#include "ast/all.hpp"
 #include "parser.tab.hpp"
 extern int lineno;
 extern union Node yylval;
