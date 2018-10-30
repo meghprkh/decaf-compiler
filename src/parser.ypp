@@ -1,6 +1,11 @@
 %{
 #include <stdio.h>
 #define YYDEBUG 1
+
+extern FILE *yyin;
+extern int yylex (void);
+void yyerror (const char *s);
+
 %}
 
 %token BOOLEAN BREAK CALLOUT CLASS CONTINUE ELSE FOR IF INT RETURN VOID
@@ -161,14 +166,22 @@ cond_op: AND | OR;
 %%
 
 extern int yydebug;
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	yydebug = 1;
+	if (argc == 1 ) {
+		fprintf(stderr, "Correct usage: decaf filename\n");
+		exit(1);
+	}
+	if (argc > 2) {
+		fprintf(stderr, "Passing more arguments than necessary.\n");
+		fprintf(stderr, "Correct usage: decaf filename\n");
+	}
+
+	yyin = fopen(argv[1], "r");
 	yyparse();
-	printf("Parsing Over\n");
 }
 
-yyerror(char *s)
+void yyerror(const char *s)
 {
 	fprintf(stderr, "error: %s\n", s);
 }

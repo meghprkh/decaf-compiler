@@ -1,8 +1,7 @@
-parser: parser.y scanner.l
-		rm -f parser.output
-		bison -vd parser.y
+parser: parser.ypp scanner.l
+		bison -d parser.ypp
 		flex scanner.l
-		gcc -o parser parser.tab.c lex.yy.c -ll
+		g++ -o decaf parser.tab.cpp lex.yy.c -ll
 
 clean:
-		rm parser parser.output
+		rm decaf parser.output
