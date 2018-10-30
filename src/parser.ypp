@@ -46,9 +46,9 @@ expr
 	| rel_expr          { $$ = $1; }
 	| eq_expr           { $$ = $1; }
 	| cond_expr         { $$ = $1; }
-	| '-' expr
-	| '!' expr
-	| '(' expr ')'
+	| '-' expr          { $$ = new UnaryMinusExpr($2); }
+	| '!' expr          { $$ = new UnaryNotExpr($2); }
+	| '(' expr ')'      { $$ = new ParenthizedExpr($2); }
 	;
 
 arith_expr

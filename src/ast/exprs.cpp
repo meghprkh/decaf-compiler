@@ -24,6 +24,18 @@ CondExpr::CondExpr(Expr* _l, CondOp _op, Expr* _r) {
   r = _r;
 }
 
+UnaryMinusExpr::UnaryMinusExpr(Expr* _e) {
+  e = _e;
+}
+
+UnaryNotExpr::UnaryNotExpr(Expr* _e) {
+  e = _e;
+}
+
+ParenthizedExpr::ParenthizedExpr(Expr* _e) {
+  e = _e;
+}
+
 int ArithExpr::print() {
   int _l = l->print();
   int _r = r->print();
@@ -74,5 +86,26 @@ int CondExpr::print() {
   }
   printf("%d-->%d\n", pidcount, _l);
   printf("%d-->%d\n", pidcount, _r);
+  return pidcount;
+}
+
+int UnaryMinusExpr::print() {
+  int _e = e->print();
+  printText("-");
+  printf("%d-->%d\n", pidcount, _e);
+  return pidcount;
+}
+
+int UnaryNotExpr::print() {
+  int _e = e->print();
+  printText("!");
+  printf("%d-->%d\n", pidcount, _e);
+  return pidcount;
+}
+
+int ParenthizedExpr::print() {
+  int _e = e->print();
+  printText("_");
+  printf("%d-->%d\n", pidcount, _e);
   return pidcount;
 }

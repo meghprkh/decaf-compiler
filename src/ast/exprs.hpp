@@ -40,3 +40,27 @@ private:
   Expr *l, *r;
   CondOp op;
 };
+
+class UnaryMinusExpr: public Expr {
+public:
+  UnaryMinusExpr(Expr* _e);
+  int print();
+private:
+  Expr* e;
+};
+
+class UnaryNotExpr: public Expr {
+public:
+  UnaryNotExpr(Expr* _e);
+  int print();
+private:
+  Expr* e;
+};
+
+class ParenthizedExpr: public Expr {
+public:
+  ParenthizedExpr(Expr* _e);
+  int print();
+private:
+  Expr* e;
+};
