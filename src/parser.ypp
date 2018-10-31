@@ -31,6 +31,11 @@ int pidcount;
 %type <field_decls> field_decls;
 %type <field_decl> field_decl;
 %type <field_decl_args> field_decl_args;
+
+%type <var_decls> var_decls;
+%type <var_decl> var_decl;
+%type <var_decl_vars> var_decl_vars;
+
 %type <type> type;
 
 %type <expr> expr
@@ -49,7 +54,7 @@ int pidcount;
 %%
 
 program
-	: field_decls { $$ = $1; start = $$; }
+	: var_decls { $$ = $1; start = $$; }
 	;
 
 field_decls
@@ -71,6 +76,20 @@ field_decl_args
 type
 	: INT        { $$ = Type::_int; }
 	| BOOLEAN    { $$ = Type::_boolean; }
+	;
+
+var_decls
+	: var_decl var_decls       { $$ = $2; $$->add($1); }
+	| %empty                   { $$ = new VarDecls(); }
+	;
+
+var_decl
+	: type var_decl_vars ';'   { $$ = new VarDecl($1, $2); }
+	;
+
+var_decl_vars
+	: ID ',' var_decl_vars     { $$ = $3; $$->add($1); }
+	| ID                       { $$ = new VarDeclVars(); $$->add($1); }
 	;
 
 expr
