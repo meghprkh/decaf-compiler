@@ -10,5 +10,5 @@ if [ $# -eq 0 ]; then
 fi
 
 ./decaf "$FILE" >tmpout
-mmdc -i tmpout -o tmpout.png
-xdg-open tmpout.png 2>/dev/null 1>&2
+mmdc -i tmpout -o tmpout.svg
+firefox tmpout.svg 2>/dev/null 1>&2

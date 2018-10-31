@@ -8,6 +8,17 @@
 #include "field_decls.hpp"
 #include "var_decls.hpp"
 #include "statements.hpp"
+#include "method_decls.hpp"
+
+
+class Program: public Base {
+public:
+  Program(FieldDecls* _field_decls, MethodDecls* _method_decls);
+  int print();
+private:
+  FieldDecls* field_decls;
+  MethodDecls* method_decls;
+};
 
 union Node {
   Base* base;
@@ -19,6 +30,11 @@ union Node {
   VarDecls* var_decls;
   VarDecl* var_decl;
   VarDeclVars* var_decl_vars;
+
+  MethodDecl* method_decl;
+  MethodDecls* method_decls;
+  MethodDeclArg* method_decl_arg;
+  MethodDeclArgs* method_decl_args;
 
   Block* block;
   Statement* statement;

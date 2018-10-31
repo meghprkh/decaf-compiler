@@ -36,6 +36,11 @@ int pidcount;
 %type <var_decl> var_decl;
 %type <var_decl_vars> var_decl_vars;
 
+%type <method_decls> method_decls;
+%type <method_decl> method_decl;
+%type <method_decl_args> method_decl_args;
+%type <method_decl_arg> method_decl_arg;
+
 %type <block> block;
 %type <statements> statements;
 %type <statement> statement;
@@ -59,7 +64,7 @@ int pidcount;
 %%
 
 program
-	: statements { $$ = $1; start = $$; }
+	: CLASS ID '{' field_decls method_decls '}' { $$ = new Program($4, $5); start = $$; }
 	;
 
 field_decls
@@ -81,6 +86,26 @@ field_decl_args
 type
 	: INT        { $$ = Type::_int; }
 	| BOOLEAN    { $$ = Type::_boolean; }
+	;
+
+method_decls
+	: method_decl method_decls   { $$ = $2; $$->add($1); }
+	| %empty                     { $$ = new MethodDecls(); }
+	;
+
+method_decl
+	: type ID '(' method_decl_args ')' block  { $$ = new MethodDecl($1, $2, $4, $6); }
+	| VOID ID '(' method_decl_args ')' block  { $$ = new MethodDecl($2, $4, $6); }
+	;
+
+method_decl_args
+	: method_decl_arg ',' method_decl_args    { $$ = $3; $$->add($1); }
+	| method_decl_arg                         { $$ = new MethodDeclArgs(); $$->add($1); }
+	| %empty                                  { $$ = new MethodDeclArgs(); }
+	;
+
+method_decl_arg
+	: type ID      { $$ = new MethodDeclArg($1, $2); }
 	;
 
 block

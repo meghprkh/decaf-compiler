@@ -1,3 +1,5 @@
+#pragma once
+
 #include "base.hpp"
 #include "var_decls.hpp"
 #include "calls.hpp"
