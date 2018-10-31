@@ -26,12 +26,12 @@ hex_digit {digit}|[a-fA-F]
 "return" { return RETURN; }
 "void" { return VOID; }
 
-"true"|"false" { return BOOL_LITERAL; }
-\"{char}*\" { return STRING_LITERAL; }
-\'{char}\' { return CHAR_LITERAL; }
+"true"|"false" { yylval.token = strdup(yytext); return BOOL_LITERAL; }
+\"{char}*\" { yylval.token = strdup(yytext); return STRING_LITERAL; }
+\'{char}\' { yylval.token = strdup(yytext); return CHAR_LITERAL; }
 {digit}+ { yylval.token = strdup(yytext); return INT_LITERAL; }
-"0x"{hex_digit}+ { return INT_LITERAL; }
-{alpha}{alphanum}*	{ return ID; }
+"0x"{hex_digit}+ { yylval.token = strdup(yytext); return INT_LITERAL; }
+{alpha}{alphanum}*	{ yylval.token = strdup(yytext); return ID; }
 
 "-"					{return '-';}
 "!"					{return '!';}
