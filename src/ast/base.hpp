@@ -32,3 +32,5 @@ void printText(int v);
 void printText(char v);
 void printText(const char *v);
 void printText(string v);
+void printRelation(int from, int to);
+void printRelation(int to);

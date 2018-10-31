@@ -46,8 +46,8 @@ int ArithExpr::print() {
     case ArithOp::div : printText("/"); break;
     case ArithOp::mod : printText("%%"); break;
   }
-  printf("%d-->%d\n", pidcount, _l);
-  printf("%d-->%d\n", pidcount, _r);
+  printRelation(_l);
+  printRelation(_r);
   return pidcount;
 }
 
@@ -60,8 +60,8 @@ int RelExpr::print() {
     case RelOp::le : printText("<="); break;
     case RelOp::ge : printText(">="); break;
   }
-  printf("%d-->%d\n", pidcount, _l);
-  printf("%d-->%d\n", pidcount, _r);
+  printRelation(_l);
+  printRelation(_r);
   return pidcount;
 }
 
@@ -72,8 +72,8 @@ int EqExpr::print() {
     case EqOp::eq : printText("=="); break;
     case EqOp::ne : printText("!="); break;
   }
-  printf("%d-->%d\n", pidcount, _l);
-  printf("%d-->%d\n", pidcount, _r);
+  printRelation(_l);
+  printRelation(_r);
   return pidcount;
 }
 
@@ -84,28 +84,28 @@ int CondExpr::print() {
     case CondOp::_and : printText("&&"); break;
     case CondOp::_or : printText("||"); break;
   }
-  printf("%d-->%d\n", pidcount, _l);
-  printf("%d-->%d\n", pidcount, _r);
+  printRelation(_l);
+  printRelation(_r);
   return pidcount;
 }
 
 int UnaryMinusExpr::print() {
   int _e = e->print();
   printText("-");
-  printf("%d-->%d\n", pidcount, _e);
+  printRelation(_e);
   return pidcount;
 }
 
 int UnaryNotExpr::print() {
   int _e = e->print();
   printText("!");
-  printf("%d-->%d\n", pidcount, _e);
+  printRelation(_e);
   return pidcount;
 }
 
 int ParenthizedExpr::print() {
   int _e = e->print();
   printText("_");
-  printf("%d-->%d\n", pidcount, _e);
+  printRelation(_e);
   return pidcount;
 }

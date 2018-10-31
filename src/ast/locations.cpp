@@ -17,6 +17,6 @@ int VarLocation::print() {
 int ArrLocation::print() {
   int _index = index->print();
   printText(id + ":arr");
-  printf("%d-->%d\n", pidcount, _index);
+  printRelation(_index);
   return pidcount;
 }

@@ -15,3 +15,11 @@ void printText(const char* v) {
 void printText(string v) {
   printf("%d[%s]\n", ++pidcount, v.c_str());
 }
+
+void printRelation(int from, int to) {
+  printf("%d-->%d\n", from, to);
+}
+
+void printRelation(int to) {
+  printRelation(pidcount, to);
+}
