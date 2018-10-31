@@ -1,6 +1,12 @@
 #include "base.hpp"
 
-void printText(int v) {
+string typeToString(Type type) {
+  switch (type) {
+    case Type::_int : return string("int"); break;
+    case Type::_boolean : return string("boolean"); break;
+  }
+}
+
 int printText(int v) {
   printf("%d[%d]\n", ++pidcount, v);
   return pidcount;

@@ -19,6 +19,9 @@ public:
   virtual int print() = 0;
 };
 
+enum class Type { _int, _boolean };
+string typeToString(Type type);
+
 extern int pidcount;
 int printText(int v);
 int printText(char v);

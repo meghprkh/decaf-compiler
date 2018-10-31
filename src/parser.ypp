@@ -27,6 +27,12 @@ int pidcount;
 %nonassoc '!'
 
 %type <base> program
+
+%type <field_decls> field_decls;
+%type <field_decl> field_decl;
+%type <field_decl_args> field_decl_args;
+%type <type> type;
+
 %type <expr> expr
 %type <expr> arith_expr
 %type <expr> rel_expr
@@ -42,7 +48,30 @@ int pidcount;
 
 %%
 
-program: expr  { $$ = $1; start = $$; }
+program
+	: field_decls { $$ = $1; start = $$; }
+	;
+
+field_decls
+	: field_decls field_decl   { $$ = $1; $$->add($2); }
+	| %empty                   { $$ = new FieldDecls(); }
+	;
+
+field_decl
+	: type field_decl_args ';' { $$ = new FieldDecl($1, $2); }
+	;
+
+field_decl_args
+	: ID ',' field_decl_args                        { $$ = $3; $$->add($1); }
+	| ID '[' INT_LITERAL ']' ',' field_decl_args    { $$ = $6; $$->add($1, $3); }
+	| ID                               { $$ = new FieldDeclArgs(); $$->add($1); }
+	| ID '[' INT_LITERAL ']'       { $$ = new FieldDeclArgs(); $$->add($1, $3); }
+	;
+
+type
+	: INT        { $$ = Type::_int; }
+	| BOOLEAN    { $$ = Type::_boolean; }
+	;
 
 expr
 	: location          { $$ = $1; }
