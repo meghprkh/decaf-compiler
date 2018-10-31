@@ -19,6 +19,17 @@ public:
   virtual int print() = 0;
 };
 
+class Location: public Expr {
+public:
+  virtual int print() = 0;
+};
+
+class Statement: public Base {
+// Anything that has context limited to itself
+public:
+  virtual int print() = 0;
+};
+
 enum class Type { _int, _boolean };
 string typeToString(Type type);
 

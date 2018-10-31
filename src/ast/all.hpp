@@ -1,3 +1,5 @@
+#pragma once
+
 #include "base.hpp"
 #include "literals.hpp"
 #include "exprs.hpp"
@@ -5,6 +7,7 @@
 #include "calls.hpp"
 #include "field_decls.hpp"
 #include "var_decls.hpp"
+#include "statements.hpp"
 
 union Node {
   Base* base;
@@ -16,6 +19,12 @@ union Node {
   VarDecls* var_decls;
   VarDecl* var_decl;
   VarDeclVars* var_decl_vars;
+
+  Block* block;
+  Statement* statement;
+  StatementsList* statements;
+  AssignOp assign_op;
+
   StringLiteral* string_literal;
   MethodArgsList* method_args;
   CalloutArgsList* callout_args;

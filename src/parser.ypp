@@ -36,6 +36,11 @@ int pidcount;
 %type <var_decl> var_decl;
 %type <var_decl_vars> var_decl_vars;
 
+%type <block> block;
+%type <statements> statements;
+%type <statement> statement;
+%type <assign_op> assign_op;
+
 %type <type> type;
 
 %type <expr> expr
@@ -54,7 +59,7 @@ int pidcount;
 %%
 
 program
-	: var_decls { $$ = $1; start = $$; }
+	: statements { $$ = $1; start = $$; }
 	;
 
 field_decls
@@ -78,6 +83,10 @@ type
 	| BOOLEAN    { $$ = Type::_boolean; }
 	;
 
+block
+	: '{' var_decls statements '}'   { $$ = new Block($2, $3); }
+	;
+
 var_decls
 	: var_decl var_decls       { $$ = $2; $$->add($1); }
 	| %empty                   { $$ = new VarDecls(); }
@@ -90,6 +99,31 @@ var_decl
 var_decl_vars
 	: ID ',' var_decl_vars     { $$ = $3; $$->add($1); }
 	| ID                       { $$ = new VarDeclVars(); $$->add($1); }
+	;
+
+statements
+	: statement statements     { $$ = $2; $$->add($1); }
+	| %empty                   { $$ = new StatementsList(); }
+	;
+
+statement
+	: location assign_op expr ';'       { $$ = new AssignStatement((Location*) $1, $2, $3); }
+	| method_call ';'                   { $$ = new MethodCallStatement((MethodCall*) $1); }
+	| IF '(' expr ')' block ELSE block  { $$ = new IfStatement($3, $5, $7); }
+	| IF '(' expr ')' block             { $$ = new IfStatement($3, $5); }
+	| FOR ID ASSIGN_EQ expr ',' expr block {
+	                                      $$ = new LoopStatement($2, $4, $6, $7); }
+	| RETURN expr ';'                   { $$ = new ReturnStatement($2); }
+	| RETURN ';'                        { $$ = new ReturnStatement(); }
+	| BREAK ';'                         { $$ = new BreakStatement(); }
+	| CONTINUE ';'                      { $$ = new ContinueStatement(); }
+	| block                             { $$ = $1; }
+	;
+
+assign_op
+	: ASSIGN_EQ     { $$ = AssignOp::eq; }
+	| ASSIGN_PE     { $$ = AssignOp::pe; }
+	| ASSIGN_ME     { $$ = AssignOp::me; }
 	;
 
 expr
