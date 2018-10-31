@@ -16,6 +16,7 @@ class MethodCall: public Expr {
 public:
   MethodCall(const char *_fn, MethodArgsList* _args);
   int print();
+  Type get_type() { return Type::_boolean; }
 private:
   string fn;
   MethodArgsList* args;
@@ -35,6 +36,7 @@ class Callout: public Expr {
 public:
   Callout(const char *_fn, CalloutArgsList* _args);
   int print();
+  Type get_type() { return Type::_boolean; }
 private:
   string fn;
   CalloutArgsList* args;

@@ -60,6 +60,9 @@ int MethodCallStatement::print() {
 
 IfStatement::IfStatement(Expr* _condition, Block* _if_true, Block* _if_false) {
   condition = _condition;
+  if (condition->get_type() != Type::_boolean) {
+    errors.push_back(make_pair(11, lineno));
+  }
   if_true = _if_true;
   if_false = _if_false;
 }

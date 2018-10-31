@@ -9,6 +9,7 @@ class ArithExpr: public Expr {
 public:
   ArithExpr(Expr* _l, ArithOp _op, Expr* _r);
   int print();
+  Type get_type() { return Type::_int; }
 private:
   Expr *l, *r;
   ArithOp op;
@@ -18,6 +19,7 @@ class RelExpr: public Expr {
 public:
   RelExpr(Expr* _l, RelOp _op, Expr* _r);
   int print();
+  Type get_type() { return Type::_boolean; }
 private:
   Expr *l, *r;
   RelOp op;
@@ -27,6 +29,7 @@ class EqExpr: public Expr {
 public:
   EqExpr(Expr* _l, EqOp _op, Expr* _r);
   int print();
+  Type get_type() { return Type::_boolean; }
 private:
   Expr *l, *r;
   EqOp op;
@@ -36,6 +39,7 @@ class CondExpr: public Expr {
 public:
   CondExpr(Expr* _l, CondOp _op, Expr* _r);
   int print();
+  Type get_type() { return Type::_boolean; }
 private:
   Expr *l, *r;
   CondOp op;
@@ -45,6 +49,7 @@ class UnaryMinusExpr: public Expr {
 public:
   UnaryMinusExpr(Expr* _e);
   int print();
+  Type get_type() { return e->get_type(); }
 private:
   Expr* e;
 };
@@ -53,6 +58,7 @@ class UnaryNotExpr: public Expr {
 public:
   UnaryNotExpr(Expr* _e);
   int print();
+  Type get_type() { return Type::_boolean; }
 private:
   Expr* e;
 };
@@ -61,6 +67,7 @@ class ParenthizedExpr: public Expr {
 public:
   ParenthizedExpr(Expr* _e);
   int print();
+  Type get_type() { return e->get_type(); }
 private:
   Expr* e;
 };

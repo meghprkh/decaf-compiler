@@ -35,3 +35,19 @@ int StringLiteral::print() {
   printText(value);
   return pidcount;
 }
+
+Type IntLiteral::get_type() {
+  return Type::_int;
+}
+
+Type CharLiteral::get_type() {
+  return Type::_int;
+}
+
+Type BoolLiteral::get_type() {
+  return Type::_boolean;
+}
+
+Type StringLiteral::get_type() {
+  return Type::_int;
+}
