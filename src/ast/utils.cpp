@@ -1,19 +1,24 @@
 #include "base.hpp"
 
 void printText(int v) {
+int printText(int v) {
   printf("%d[%d]\n", ++pidcount, v);
+  return pidcount;
 }
 
-void printText(char v) {
+int printText(char v) {
   printf("%d[%c]\n", ++pidcount, v);
+  return pidcount;
 }
 
-void printText(const char* v) {
+int printText(const char* v) {
   printf("%d[%s]\n", ++pidcount, v);
+  return pidcount;
 }
 
-void printText(string v) {
+int printText(string v) {
   printf("%d[%s]\n", ++pidcount, v.c_str());
+  return pidcount;
 }
 
 void printRelation(int from, int to) {

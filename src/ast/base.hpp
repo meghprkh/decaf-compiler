@@ -20,9 +20,9 @@ public:
 };
 
 extern int pidcount;
-void printText(int v);
-void printText(char v);
-void printText(const char *v);
-void printText(string v);
+int printText(int v);
+int printText(char v);
+int printText(const char *v);
+int printText(string v);
 void printRelation(int from, int to);
 void printRelation(int to);
