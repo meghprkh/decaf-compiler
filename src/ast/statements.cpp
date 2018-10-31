@@ -68,7 +68,7 @@ int IfStatement::print() {
   int _c = condition->print();
   int _t = if_true->print();
   int _f = -1;
-  if (if_false) if_false->print();
+  if (if_false) _f = if_false->print();
   printText("IfStatement");
   printRelation(_c);
   printRelation(_t);

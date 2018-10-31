@@ -204,14 +204,14 @@ method_call
 method_name: ID       { $$ = $1; };
 
 method_args
-	: expr ',' method_args    { $$ = $3; $3->add($1); }
+	: expr ',' method_args    { $$ = $3; $$->add($1); }
 	| expr                    { $$ = new MethodArgsList(); $$->add($1); }
 	| %empty                  { $$ = new MethodArgsList(); }
 	;
 
 callout_args
-	: string_literal ',' callout_args    { $$ = $3; $3->add($1); }
-	| expr ',' callout_args              { $$ = $3; $3->add($1); }
+	: string_literal ',' callout_args    { $$ = $3; $$->add($1); }
+	| expr ',' callout_args              { $$ = $3; $$->add($1); }
 	| string_literal                     { $$ = new CalloutArgsList(); $$->add($1); }
 	| expr                               { $$ = new CalloutArgsList(); $$->add($1); }
 	;
