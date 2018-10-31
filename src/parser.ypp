@@ -33,7 +33,12 @@ int pidcount;
 %type <expr> eq_expr
 %type <expr> cond_expr
 %type <expr> literal
+%type <string_literal> string_literal
 %type <expr> location
+%type <expr> method_call
+%type <token> method_name
+%type <method_args> method_args
+%type <callout_args> callout_args
 
 %%
 
@@ -41,7 +46,7 @@ program: expr  { $$ = $1; start = $$; }
 
 expr
 	: location          { $$ = $1; }
-	| method_call
+	| method_call       { $$ = $1; }
 	| literal           { $$ = $1; }
 	| arith_expr        { $$ = $1; }
 	| rel_expr          { $$ = $1; }
@@ -83,30 +88,35 @@ location
 	;
 
 method_call
-	: method_name '(' method_args ')'
-	| CALLOUT '(' STRING_LITERAL ')'
-	| CALLOUT '(' STRING_LITERAL ',' callout_args ')'
+	: method_name '(' method_args ')'   { $$ = new MethodCall($1, (MethodArgsList*) $3); }
+	| CALLOUT '(' STRING_LITERAL ')'    { $$ = new Callout($3, new CalloutArgsList()); }
+	| CALLOUT '(' STRING_LITERAL ',' callout_args ')' {
+	                                      $$ = new Callout($3, $5); }
 	;
 
-method_name: ID;
+method_name: ID       { $$ = $1; };
 
 method_args
-	: expr ',' method_args
-	| expr
-	| %empty
+	: expr ',' method_args    { $$ = $3; $3->add($1); }
+	| expr                    { $$ = new MethodArgsList(); $$->add($1); }
+	| %empty                  { $$ = new MethodArgsList(); }
 	;
 
 callout_args
-	: STRING_LITERAL ',' callout_args
-	| expr ',' callout_args
-	| STRING_LITERAL
-	| expr
+	: string_literal ',' callout_args    { $$ = $3; $3->add($1); }
+	| expr ',' callout_args              { $$ = $3; $3->add($1); }
+	| string_literal                     { $$ = new CalloutArgsList(); $$->add($1); }
+	| expr                               { $$ = new CalloutArgsList(); $$->add($1); }
 	;
 
 literal
 	: INT_LITERAL      { $$ = new IntLiteral($1); }
 	| CHAR_LITERAL     { $$ = new CharLiteral($1); }
 	| BOOL_LITERAL     { $$ = new BoolLiteral($1); }
+	;
+
+string_literal
+	: STRING_LITERAL   { $$ = new StringLiteral($1); }
 	;
 
 %%

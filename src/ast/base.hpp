@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <string>
+#include <vector>
+#include <deque>
 #include <iostream>
 using namespace std;
 
@@ -16,16 +18,6 @@ class Expr: public Base {
 public:
   virtual int print() = 0;
 };
-
-
-union Node {
-  Base* base;
-  Expr* expr;
-  char* token;
-};
-
-typedef union Node YYSTYPE;
-#define YYSTYPE_IS_DECLARED 1
 
 extern int pidcount;
 void printText(int v);

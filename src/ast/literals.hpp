@@ -1,4 +1,5 @@
 #include "base.hpp"
+#pragma once
 
 class Literal: public Expr {
 public:
