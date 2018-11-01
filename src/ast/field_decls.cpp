@@ -55,10 +55,10 @@ void FieldDeclArgs::traverse() {
 
 void FieldDeclArgs::traverse(Type type) {
   for (auto v: vars) {
-    // XXX: check var and add to context
+    context.insert(v, CtxDataType(LocationType::var, v, type));
   }
   for (auto a: arrs) {
-    // XXX: check arr and add to context
+    context.insert(a.first, CtxDataType(LocationType::arr, a.first, type, a.second));
   }
 }
 
@@ -67,6 +67,5 @@ void FieldDecl::traverse() {
 }
 
 void FieldDecls::traverse() {
-  // XXX: create new context and add each fielddecl to it
   for (auto f: list) f->traverse();
 }

@@ -17,7 +17,7 @@ class MethodCall: public Expr {
 public:
   MethodCall(const char *_fn, MethodArgsList* _args);
   int print();
-  Type get_type() { return Type::_boolean; }
+  Type get_type();
   void traverse();
 private:
   string fn;

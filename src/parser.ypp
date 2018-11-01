@@ -12,6 +12,8 @@ extern union Node yylval;
 int pidcount;
 vector<pair<int, int> > errors;
 
+Context context;
+
 %}
 
 %token BOOLEAN BREAK CALLOUT CLASS CONTINUE ELSE FOR IF INT RETURN VOID

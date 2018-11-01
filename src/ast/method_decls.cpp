@@ -64,7 +64,7 @@ int MethodDecls::print() {
 }
 
 void MethodDeclArg::traverse() {
-  // XXX: Add to context
+  context.insert(id, CtxDataType(LocationType::var, id, type));
 }
 
 void MethodDeclArgs::traverse() {
@@ -72,7 +72,12 @@ void MethodDeclArgs::traverse() {
 }
 
 void MethodDecl::traverse() {
-  // XXX: create new context
+  auto cdt = CtxDataType(LocationType::method, id, type);
+  cdt.isVoid = isVoid;
+  // XXX: method args type insert in CtxDataType's method_args
+  context.insert(id, cdt);
+
+  context.newContext();
   args->traverse();
   // XXX: somehow validate return type, use a global maybe
   block->traverse();

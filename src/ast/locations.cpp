@@ -22,9 +22,17 @@ int ArrLocation::print() {
 }
 
 void VarLocation::traverse() {
-  // XXX: do context checkup and assign type
+  auto cdt = context.lookup(id);
+  if (cdt.lt != LocationType::var) {
+    errors.push_back(make_pair(9, lineno));
+  }
+  type = cdt.type;
 }
 
 void ArrLocation::traverse() {
-  // XXX: do context checkup and assign type
+  auto cdt = context.lookup(id);
+  if (cdt.lt != LocationType::arr) {
+    errors.push_back(make_pair(10, lineno));
+  }
+  type = cdt.type;
 }

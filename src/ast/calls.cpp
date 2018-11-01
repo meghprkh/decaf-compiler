@@ -57,6 +57,10 @@ int CalloutArgsList::print() {
   return p;
 }
 
+Type MethodCall::get_type() {
+  return context.lookup(fn).type;
+}
+
 void MethodArgsList::traverse() {
   for (auto e: list) {
     e->traverse();

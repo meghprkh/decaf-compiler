@@ -46,7 +46,7 @@ void VarDeclVars::traverse() {
 
 void VarDeclVars::traverse(Type type) {
   for (auto v: vars) {
-    // XXX: Add to context
+    context.insert(v, CtxDataType(LocationType::var, v, type));
   }
 }
 
@@ -55,6 +55,6 @@ void VarDecl::traverse() {
 }
 
 void VarDecls::traverse() {
-  // XXX: Add to current context. Dont create new context
+  // Add to current context. Dont create new context
   for (auto v: list) v->traverse();
 }

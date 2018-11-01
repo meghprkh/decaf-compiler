@@ -124,15 +124,18 @@ void StatementsList::traverse() {
 }
 
 void Block::traverse() {
-  // XXX: Create new context. see method declaration shit
+  context.newContext();
   var_decls->traverse();
   list->traverse();
+  context.popContext();
 }
 
 void AssignStatement::traverse() {
   location->traverse();
   expr->traverse();
-  // XXX: check if type matching
+  if (location->get_type() != expr->get_type()) {
+    errors.push_back(make_pair(15, lineno));
+  }
 }
 
 void MethodCallStatement::traverse() {
@@ -143,15 +146,21 @@ void IfStatement::traverse() {
   condition->traverse();
   if_true->traverse();
   if (if_false) if_false->traverse();
-  // XXX: check condition type
+  if (condition->get_type() != Type::_boolean) {
+    errors.push_back(make_pair(11, lineno));
+  }
 }
 
 void LoopStatement::traverse() {
-  // XXX: Add id to context
+  context.newContext();
+  context.insert(id, CtxDataType(LocationType::var, id, Type::_int));
   from->traverse();
   to->traverse();
   b->traverse();
-  // XXX: Check from to type
+  if (from->get_type() != Type::_int || to->get_type() != Type::_int) {
+    errors.push_back(make_pair(17, lineno));
+  }
+  context.popContext();
 }
 
 void ReturnStatement::traverse() {

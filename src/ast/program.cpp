@@ -15,7 +15,7 @@ int Program::print() {
 }
 
 void Program::traverse() {
-  // XXX: create global context
+  context.newContext();
   field_decls->traverse();
   method_decls->traverse();
 }
