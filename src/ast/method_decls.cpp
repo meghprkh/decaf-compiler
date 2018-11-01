@@ -77,9 +77,12 @@ void MethodDecl::traverse() {
   // XXX: method args type insert in CtxDataType's method_args
   context.insert(id, cdt);
 
+  curMethodName = id;
+  curMethodReturnVoid = isVoid;
+  curMethodReturnType = type;
+
   context.newContext();
   args->traverse();
-  // XXX: somehow validate return type, use a global maybe
   block->traverse();
 }
 

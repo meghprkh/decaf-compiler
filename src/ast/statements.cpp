@@ -96,6 +96,9 @@ int LoopStatement::print() {
   return pidcount;
 }
 
+string curMethodName;
+bool curMethodReturnVoid;
+Type curMethodReturnType;
 ReturnStatement::ReturnStatement(Expr* _e) {
   e = _e;
 }
@@ -174,7 +177,14 @@ void LoopStatement::traverse() {
 
 void ReturnStatement::traverse() {
   if (e) e->traverse();
-  // XXX: check e type
+  if (!curMethodReturnVoid) {
+    if (!e)
+      errors.push_back(Error(8, curMethodName + " cannot have void return"));
+    else if (e->get_type() != curMethodReturnType)
+      errors.push_back(Error(8, curMethodName + " cannot have return type " + typeToString(e->get_type())));
+  } else {
+    if (e) errors.push_back(Error(7, curMethodName + " shall not have return body"));
+  }
 }
 
 void BreakStatement::traverse() {

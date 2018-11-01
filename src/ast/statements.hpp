@@ -69,6 +69,10 @@ private:
   Block *b;
 };
 
+extern string curMethodName;     // slightly dirty global vars
+extern bool curMethodReturnVoid; // possible as this is imported
+extern Type curMethodReturnType; // by method_decls.hpp
+
 class ReturnStatement: public Statement {
 public:
   ReturnStatement(Expr* _e = NULL);
