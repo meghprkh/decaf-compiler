@@ -156,7 +156,7 @@ void IfStatement::traverse() {
   if_true->traverse();
   if (if_false) if_false->traverse();
   if (condition->get_type() != Type::_boolean) {
-    errors.push_back(Error(11));
+    errors.push_back(Error(11, "if cannot have condition of type " + typeToString(condition->get_type())));
   }
 }
 
@@ -168,9 +168,9 @@ void LoopStatement::traverse() {
   to->traverse();
   b->traverse();
   if (from->get_type() != Type::_int)
-    errors.push_back(Error(12, "from expr of LoopStatement not of type int"));
+    errors.push_back(Error(17, "from expr of LoopStatement not of type int"));
   if (to->get_type() != Type::_int)
-    errors.push_back(Error(12, "to expr of LoopStatement not of type int"));
+    errors.push_back(Error(17, "to expr of LoopStatement not of type int"));
   context.popContext();
   loop_depth--;
 }
@@ -188,9 +188,9 @@ void ReturnStatement::traverse() {
 }
 
 void BreakStatement::traverse() {
-  if (loop_depth <= 0) errors.push_back(Error(18));
+  if (loop_depth <= 0) errors.push_back(Error(18, "break outside loop"));
 }
 
 void ContinueStatement::traverse() {
-  if (loop_depth <= 0) errors.push_back(Error(18));
+  if (loop_depth <= 0) errors.push_back(Error(18, "continue outside loop"));
 }
