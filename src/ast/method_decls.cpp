@@ -71,10 +71,16 @@ void MethodDeclArgs::traverse() {
   for (auto a: args) a->traverse();
 }
 
+vector<Type> MethodDeclArgs::get_types() {
+  vector<Type> toret;
+  for (auto a: args) toret.push_back(a->get_type());
+  return toret;
+}
+
 void MethodDecl::traverse() {
   auto cdt = CtxDataType(LocationType::method, id, type);
   cdt.isVoid = isVoid;
-  // XXX: method args type insert in CtxDataType's method_args
+  cdt.method_args = args->get_types();
   context.insert(id, cdt);
 
   curMethodName = id;

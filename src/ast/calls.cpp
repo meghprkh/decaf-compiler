@@ -58,17 +58,32 @@ int CalloutArgsList::print() {
 }
 
 Type MethodCall::get_type() {
-  return context.lookup(fn).type;
+  auto cdt = context.lookup(fn);
+  if (cdt.isVoid)
+    errors.push_back(Error(6, cdt.id + " used in expr even though returns void"));
+  return cdt.type;
 }
 
 void MethodArgsList::traverse() {
+  throw runtime_error("MethodArgsList traverse called without vector type");
+}
+
+void MethodArgsList::traverse(string method_name, vector<Type> types) {
+  int i = 0;
+  if (list.size() != types.size())
+    errors.push_back(Error(5, method_name + " call differs in number of params"));
   for (auto e: list) {
     e->traverse();
+    if (e->get_type() != types[i])
+      errors.push_back(Error(5, method_name + " call, type of param " +
+                                to_string(i) + " shall be " + typeToString(types[i])
+                              ));
   }
 }
 
 void MethodCall::traverse() {
-  args->traverse();
+  auto cdt = context.lookup(fn);
+  args->traverse(cdt.id, cdt.method_args);
 }
 
 void CalloutArgsList::traverse() {

@@ -6,6 +6,7 @@ public:
   MethodDeclArg(Type _type, const char *_id);
   int print();
   void traverse();
+  Type get_type() { return type; }
 private:
   Type type;
   string id;
@@ -17,6 +18,7 @@ public:
   void add(MethodDeclArg* arg);
   int print();
   void traverse();
+  vector<Type> get_types();
 private:
   deque<MethodDeclArg*> args;
 };

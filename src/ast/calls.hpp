@@ -9,6 +9,7 @@ public:
   void add(Expr* _e);
   int print();
   void traverse();
+  void traverse(string method_name, vector<Type> types);
 private:
   deque<Expr*> list;
 };
