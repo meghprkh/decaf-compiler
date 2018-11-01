@@ -48,3 +48,25 @@ int FieldDecls::print() {
   }
   return p;
 }
+
+void FieldDeclArgs::traverse() {
+  throw runtime_error("FieldDeclArgs traverse without type arg called!");
+}
+
+void FieldDeclArgs::traverse(Type type) {
+  for (auto v: vars) {
+    // XXX: check var and add to context
+  }
+  for (auto a: arrs) {
+    // XXX: check arr and add to context
+  }
+}
+
+void FieldDecl::traverse() {
+  args->traverse(type);
+}
+
+void FieldDecls::traverse() {
+  // XXX: create new context and add each fielddecl to it
+  for (auto f: list) f->traverse();
+}

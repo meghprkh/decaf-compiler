@@ -56,3 +56,24 @@ int CalloutArgsList::print() {
   }
   return p;
 }
+
+void MethodArgsList::traverse() {
+  for (auto e: list) {
+    e->traverse();
+  }
+}
+
+void MethodCall::traverse() {
+  args->traverse();
+}
+
+void CalloutArgsList::traverse() {
+  for (auto e: list) {
+    if (e.first) e.first->traverse();
+    else e.second->traverse();
+  }
+}
+
+void Callout::traverse() {
+  args->traverse();
+}

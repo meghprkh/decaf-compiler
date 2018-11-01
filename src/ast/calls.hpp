@@ -8,6 +8,7 @@ public:
   MethodArgsList() {};
   void add(Expr* _e);
   int print();
+  void traverse();
 private:
   deque<Expr*> list;
 };
@@ -17,6 +18,7 @@ public:
   MethodCall(const char *_fn, MethodArgsList* _args);
   int print();
   Type get_type() { return Type::_boolean; }
+  void traverse();
 private:
   string fn;
   MethodArgsList* args;
@@ -28,6 +30,7 @@ public:
   void add(Expr* s);
   void add(StringLiteral* s);
   int print();
+  void traverse();
 private:
   deque<pair<Expr*, StringLiteral*> > list;
 };
@@ -37,6 +40,7 @@ public:
   Callout(const char *_fn, CalloutArgsList* _args);
   int print();
   Type get_type() { return Type::_boolean; }
+  void traverse();
 private:
   string fn;
   CalloutArgsList* args;

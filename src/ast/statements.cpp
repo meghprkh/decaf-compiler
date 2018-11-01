@@ -118,3 +118,51 @@ int ContinueStatement::print() {
   printText("ContinueStatement");
   return pidcount;
 }
+
+void StatementsList::traverse() {
+  for (auto s: list) s->traverse();
+}
+
+void Block::traverse() {
+  // XXX: Create new context. see method declaration shit
+  var_decls->traverse();
+  list->traverse();
+}
+
+void AssignStatement::traverse() {
+  location->traverse();
+  expr->traverse();
+  // XXX: check if type matching
+}
+
+void MethodCallStatement::traverse() {
+  method_call->traverse();
+}
+
+void IfStatement::traverse() {
+  condition->traverse();
+  if_true->traverse();
+  if (if_false) if_false->traverse();
+  // XXX: check condition type
+}
+
+void LoopStatement::traverse() {
+  // XXX: Add id to context
+  from->traverse();
+  to->traverse();
+  b->traverse();
+  // XXX: Check from to type
+}
+
+void ReturnStatement::traverse() {
+  if (e) e->traverse();
+  // XXX: check e type
+}
+
+void BreakStatement::traverse() {
+  // XXX: Check if in loop
+}
+
+void ContinueStatement::traverse() {
+  // XXX: Check if in loop
+}

@@ -20,3 +20,11 @@ int ArrLocation::print() {
   printRelation(_index);
   return pidcount;
 }
+
+void VarLocation::traverse() {
+  // XXX: do context checkup and assign type
+}
+
+void ArrLocation::traverse() {
+  // XXX: do context checkup and assign type
+}

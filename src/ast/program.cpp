@@ -13,3 +13,9 @@ int Program::print() {
   printRelation(_m);
   return pidcount;
 }
+
+void Program::traverse() {
+  // XXX: create global context
+  field_decls->traverse();
+  method_decls->traverse();
+}

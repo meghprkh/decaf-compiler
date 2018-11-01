@@ -15,6 +15,7 @@ class Program: public Base {
 public:
   Program(FieldDecls* _field_decls, MethodDecls* _method_decls);
   int print();
+  void traverse();
 private:
   FieldDecls* field_decls;
   MethodDecls* method_decls;

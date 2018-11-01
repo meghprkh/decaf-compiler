@@ -10,6 +10,7 @@ public:
   ArithExpr(Expr* _l, ArithOp _op, Expr* _r);
   int print();
   Type get_type() { return Type::_int; }
+  void traverse();
 private:
   Expr *l, *r;
   ArithOp op;
@@ -20,6 +21,7 @@ public:
   RelExpr(Expr* _l, RelOp _op, Expr* _r);
   int print();
   Type get_type() { return Type::_boolean; }
+  void traverse();
 private:
   Expr *l, *r;
   RelOp op;
@@ -30,6 +32,7 @@ public:
   EqExpr(Expr* _l, EqOp _op, Expr* _r);
   int print();
   Type get_type() { return Type::_boolean; }
+  void traverse();
 private:
   Expr *l, *r;
   EqOp op;
@@ -40,6 +43,7 @@ public:
   CondExpr(Expr* _l, CondOp _op, Expr* _r);
   int print();
   Type get_type() { return Type::_boolean; }
+  void traverse();
 private:
   Expr *l, *r;
   CondOp op;
@@ -50,6 +54,7 @@ public:
   UnaryMinusExpr(Expr* _e);
   int print();
   Type get_type() { return e->get_type(); }
+  void traverse();
 private:
   Expr* e;
 };
@@ -59,6 +64,7 @@ public:
   UnaryNotExpr(Expr* _e);
   int print();
   Type get_type() { return Type::_boolean; }
+  void traverse();
 private:
   Expr* e;
 };
@@ -68,6 +74,7 @@ public:
   ParenthizedExpr(Expr* _e);
   int print();
   Type get_type() { return e->get_type(); }
+  void traverse();
 private:
   Expr* e;
 };

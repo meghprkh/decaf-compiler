@@ -244,6 +244,8 @@ int main(int argc, char **argv)
 	yyin = fopen(argv[1], "r");
 	yyparse();
 
+	start->traverse();
+
 	if (!errors.empty()) {
 		for (auto e: errors)
 			fprintf(stderr, "error: %d at line %d\n", e.first, e.second);

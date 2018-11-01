@@ -62,3 +62,22 @@ int MethodDecls::print() {
   }
   return p;
 }
+
+void MethodDeclArg::traverse() {
+  // XXX: Add to context
+}
+
+void MethodDeclArgs::traverse() {
+  for (auto a: args) a->traverse();
+}
+
+void MethodDecl::traverse() {
+  // XXX: create new context
+  args->traverse();
+  // XXX: somehow validate return type, use a global maybe
+  block->traverse();
+}
+
+void MethodDecls::traverse() {
+  for (auto m: list) m->traverse();
+}

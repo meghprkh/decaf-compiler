@@ -5,6 +5,7 @@ class Literal: public Expr {
 public:
   virtual int print() = 0;
   virtual Type get_type() = 0;
+  void traverse() {};
 };
 
 class IntLiteral: public Literal {

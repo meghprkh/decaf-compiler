@@ -119,3 +119,35 @@ int ParenthizedExpr::print() {
   printRelation(_e);
   return pidcount;
 }
+
+void ArithExpr::traverse() {
+  l->traverse();
+  r->traverse();
+}
+
+void RelExpr::traverse() {
+  l->traverse();
+  r->traverse();
+}
+
+void EqExpr::traverse() {
+  l->traverse();
+  r->traverse();
+}
+
+void CondExpr::traverse() {
+  l->traverse();
+  r->traverse();
+}
+
+void UnaryMinusExpr::traverse() {
+  e->traverse();
+}
+
+void UnaryNotExpr::traverse() {
+  e->traverse();
+}
+
+void ParenthizedExpr::traverse() {
+  e->traverse();
+}

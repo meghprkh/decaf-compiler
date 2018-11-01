@@ -6,6 +6,8 @@ public:
   void add(const char* _id);
   void add(const char* _id, const char* index);
   int print();
+  void traverse();
+  void traverse(Type type);
 private:
   deque<string> vars;
   deque<pair<string, int> > arrs;
@@ -15,6 +17,7 @@ class FieldDecl: public Base {
 public:
   FieldDecl(Type _type, FieldDeclArgs* _args);
   int print();
+  void traverse();
 private:
   Type type;
   FieldDeclArgs* args;
@@ -25,6 +28,7 @@ public:
   FieldDecls() {};
   void add(FieldDecl* _f);
   int print();
+  void traverse();
 private:
   deque<FieldDecl*> list;
 };

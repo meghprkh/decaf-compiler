@@ -39,3 +39,22 @@ int VarDecls::print() {
   }
   return p;
 }
+
+void VarDeclVars::traverse() {
+  throw runtime_error("VarDeclVars traverse without type arg called!");
+}
+
+void VarDeclVars::traverse(Type type) {
+  for (auto v: vars) {
+    // XXX: Add to context
+  }
+}
+
+void VarDecl::traverse() {
+  vars->traverse(type);
+}
+
+void VarDecls::traverse() {
+  // XXX: Add to current context. Dont create new context
+  for (auto v: list) v->traverse();
+}
