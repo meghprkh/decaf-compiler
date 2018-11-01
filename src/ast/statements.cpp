@@ -137,6 +137,9 @@ void AssignStatement::traverse() {
                                 typeToString(expr->get_type())
                               ));
   }
+  if ((op == AssignOp::pe || op == AssignOp::me) && location->get_type() != Type::_int) {
+    errors.push_back(Error(16, location->get_id() + " not of type int"));
+  }
 }
 
 void MethodCallStatement::traverse() {

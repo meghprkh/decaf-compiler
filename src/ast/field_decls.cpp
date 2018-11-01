@@ -6,6 +6,8 @@ void FieldDeclArgs::add(const char *_id) {
 
 void FieldDeclArgs::add(const char *_id, const char *_index) {
   auto p = make_pair(string(_id), atoi(_index));
+  if (p.second <= 0)
+    errors.push_back(Error(4, _id + string("\'s IntLiteral is ") + _index + "<= 0"));
   arrs.push_front(p);
 }
 
