@@ -4,32 +4,24 @@ ArithExpr::ArithExpr(Expr* _l, ArithOp _op, Expr* _r) {
   l = _l;
   op = _op;
   r = _r;
-  if (l->get_type() != Type::_int || r->get_type() != Type::_int)
-    errors.push_back(make_pair(12, lineno));
 }
 
 RelExpr::RelExpr(Expr* _l, RelOp _op, Expr* _r) {
   l = _l;
   op = _op;
   r = _r;
-  if (l->get_type() != Type::_int || r->get_type() != Type::_int)
-    errors.push_back(make_pair(12, lineno));
 }
 
 EqExpr::EqExpr(Expr* _l, EqOp _op, Expr* _r) {
   l = _l;
   op = _op;
   r = _r;
-  if (l->get_type() != r->get_type())
-    errors.push_back(make_pair(13, lineno));
 }
 
 CondExpr::CondExpr(Expr* _l, CondOp _op, Expr* _r) {
   l = _l;
   op = _op;
   r = _r;
-  if (l->get_type() != Type::_boolean || r->get_type() != Type::_boolean)
-    errors.push_back(make_pair(14, lineno));
 }
 
 UnaryMinusExpr::UnaryMinusExpr(Expr* _e) {
@@ -38,8 +30,6 @@ UnaryMinusExpr::UnaryMinusExpr(Expr* _e) {
 
 UnaryNotExpr::UnaryNotExpr(Expr* _e) {
   e = _e;
-  if (e->get_type() != Type::_boolean)
-    errors.push_back(make_pair(14, lineno));
 }
 
 ParenthizedExpr::ParenthizedExpr(Expr* _e) {
@@ -123,21 +113,38 @@ int ParenthizedExpr::print() {
 void ArithExpr::traverse() {
   l->traverse();
   r->traverse();
+  if (l->get_type() != Type::_int)
+    errors.push_back(Error(12, "left subexpr not of type int"));
+  if (r->get_type() != Type::_int)
+    errors.push_back(Error(12, "right subexpr not of type int"));
 }
 
 void RelExpr::traverse() {
   l->traverse();
   r->traverse();
+  if (l->get_type() != Type::_int)
+    errors.push_back(Error(12, "left subexpr of relop not of type int"));
+  if (r->get_type() != Type::_int)
+    errors.push_back(Error(12, "right subexpr of relop not of type int"));
 }
 
 void EqExpr::traverse() {
   l->traverse();
   r->traverse();
+  if (l->get_type() != r->get_type())
+    errors.push_back(Error(13, "eqop types dont match " +
+                                typeToString(l->get_type()) + " != " +
+                                typeToString(r->get_type())
+                            ));
 }
 
 void CondExpr::traverse() {
   l->traverse();
   r->traverse();
+  if (l->get_type() != Type::_boolean)
+    errors.push_back(Error(14, "left subexpr of condop not of type boolean"));
+  if (r->get_type() != Type::_boolean)
+    errors.push_back(Error(14, "right subexpr of condop not of type boolean"));
 }
 
 void UnaryMinusExpr::traverse() {
@@ -146,6 +153,8 @@ void UnaryMinusExpr::traverse() {
 
 void UnaryNotExpr::traverse() {
   e->traverse();
+  if (e->get_type() != Type::_boolean)
+    errors.push_back(Error(14, "unary not's expr is not of type boolean"));
 }
 
 void ParenthizedExpr::traverse() {

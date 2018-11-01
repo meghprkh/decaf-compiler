@@ -60,9 +60,6 @@ int MethodCallStatement::print() {
 
 IfStatement::IfStatement(Expr* _condition, Block* _if_true, Block* _if_false) {
   condition = _condition;
-  if (condition->get_type() != Type::_boolean) {
-    errors.push_back(make_pair(11, lineno));
-  }
   if_true = _if_true;
   if_false = _if_false;
 }
@@ -134,7 +131,10 @@ void AssignStatement::traverse() {
   location->traverse();
   expr->traverse();
   if (location->get_type() != expr->get_type()) {
-    errors.push_back(make_pair(15, lineno));
+    errors.push_back(Error(15, "AssignStatement type mismatch : " +
+                                typeToString(location->get_type()) + " != " +
+                                typeToString(expr->get_type())
+                              ));
   }
 }
 
@@ -147,7 +147,7 @@ void IfStatement::traverse() {
   if_true->traverse();
   if (if_false) if_false->traverse();
   if (condition->get_type() != Type::_boolean) {
-    errors.push_back(make_pair(11, lineno));
+    errors.push_back(Error(11));
   }
 }
 
@@ -157,9 +157,10 @@ void LoopStatement::traverse() {
   from->traverse();
   to->traverse();
   b->traverse();
-  if (from->get_type() != Type::_int || to->get_type() != Type::_int) {
-    errors.push_back(make_pair(17, lineno));
-  }
+  if (from->get_type() != Type::_int)
+    errors.push_back(Error(12, "from expr of LoopStatement not of type int"));
+  if (to->get_type() != Type::_int)
+    errors.push_back(Error(12, "to expr of LoopStatement not of type int"));
   context.popContext();
 }
 

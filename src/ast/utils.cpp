@@ -5,6 +5,7 @@ string typeToString(Type type) {
     case Type::_int : return string("int"); break;
     case Type::_boolean : return string("boolean"); break;
   }
+  return string("undefinied_type");
 }
 
 int printText(int v) {

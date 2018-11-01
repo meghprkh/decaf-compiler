@@ -23,16 +23,16 @@ int ArrLocation::print() {
 
 void VarLocation::traverse() {
   auto cdt = context.lookup(id);
-  if (cdt.lt != LocationType::var) {
-    errors.push_back(make_pair(9, lineno));
+  if (cdt.lt != LocationType::var && !cdt.not_found) {
+    errors.push_back(Error(9, id + " is not a variable"));
   }
   type = cdt.type;
 }
 
 void ArrLocation::traverse() {
   auto cdt = context.lookup(id);
-  if (cdt.lt != LocationType::arr) {
-    errors.push_back(make_pair(10, lineno));
+  if (cdt.lt != LocationType::arr && !cdt.not_found) {
+    errors.push_back(Error(10, id + " is not an array"));
   }
   type = cdt.type;
 }

@@ -10,7 +10,7 @@ int lineno = 0;
 class Base* start;
 extern union Node yylval;
 int pidcount;
-vector<pair<int, int> > errors;
+vector<Error> errors;
 
 Context context;
 
@@ -249,8 +249,7 @@ int main(int argc, char **argv)
 	start->traverse();
 
 	if (!errors.empty()) {
-		for (auto e: errors)
-			fprintf(stderr, "error: %d at line %d\n", e.first, e.second);
+		for (auto e: errors) e.print();
 		exit(1);
 	}
 

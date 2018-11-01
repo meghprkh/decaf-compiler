@@ -7,6 +7,7 @@
 #include <map>
 #include <deque>
 #include <iostream>
+#include "errors.hpp"
 using namespace std;
 
 enum class Type { _int, _boolean };
@@ -49,7 +50,7 @@ void printRelation(int from, int to);
 void printRelation(int to);
 
 extern int lineno;
-extern vector<pair<int, int> > errors;
+extern vector<Error> errors;
 
 
 enum class LocationType { var, arr, method };
