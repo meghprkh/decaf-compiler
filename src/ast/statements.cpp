@@ -132,6 +132,7 @@ void AssignStatement::traverse() {
   expr->traverse();
   if (location->get_type() != expr->get_type()) {
     errors.push_back(Error(15, "AssignStatement type mismatch : " +
+                                location->get_id() + " | " +
                                 typeToString(location->get_type()) + " != " +
                                 typeToString(expr->get_type())
                               ));

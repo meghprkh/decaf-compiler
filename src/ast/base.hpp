@@ -30,6 +30,7 @@ class Location: public Expr {
 public:
   virtual int print() = 0;
   virtual void traverse() = 0;
+  virtual string get_id() = 0;
 };
 
 class Statement: public Base {
