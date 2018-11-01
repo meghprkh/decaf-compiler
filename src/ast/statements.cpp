@@ -76,6 +76,8 @@ int IfStatement::print() {
   return pidcount;
 }
 
+int loop_depth = 0;
+
 LoopStatement::LoopStatement(const char *_id, Expr* _from, Expr *_to, Block *_b) {
   id = string(_id);
   from = _from;
@@ -156,6 +158,7 @@ void IfStatement::traverse() {
 }
 
 void LoopStatement::traverse() {
+  loop_depth++;
   context.newContext();
   context.insert(id, CtxDataType(LocationType::var, id, Type::_int));
   from->traverse();
@@ -166,6 +169,7 @@ void LoopStatement::traverse() {
   if (to->get_type() != Type::_int)
     errors.push_back(Error(12, "to expr of LoopStatement not of type int"));
   context.popContext();
+  loop_depth--;
 }
 
 void ReturnStatement::traverse() {
@@ -174,9 +178,9 @@ void ReturnStatement::traverse() {
 }
 
 void BreakStatement::traverse() {
-  // XXX: Check if in loop
+  if (loop_depth <= 0) errors.push_back(Error(18));
 }
 
 void ContinueStatement::traverse() {
-  // XXX: Check if in loop
+  if (loop_depth <= 0) errors.push_back(Error(18));
 }

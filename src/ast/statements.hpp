@@ -57,6 +57,7 @@ private:
   Block *if_true, *if_false;
 };
 
+extern int loop_depth;
 class LoopStatement: public Statement {
 public:
   LoopStatement(const char *_id, Expr* _from, Expr *_to, Block *_b);
