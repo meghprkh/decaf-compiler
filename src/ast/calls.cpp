@@ -58,7 +58,7 @@ int CalloutArgsList::print() {
 }
 
 Type MethodCall::get_type() {
-  auto cdt = context.lookup(fn);
+  auto cdt = CONTEXT_LOOKUP(fn);
   if (cdt.isVoid)
     ERROR(6, cdt.id + " used in expr even though returns void");
   return cdt.type;
@@ -81,7 +81,7 @@ void MethodArgsList::traverse(string method_name, vector<Type> types) {
 }
 
 void MethodCall::traverse() {
-  auto cdt = context.lookup(fn);
+  auto cdt = CONTEXT_LOOKUP(fn);
   args->traverse(cdt.id, cdt.method_args);
 }
 

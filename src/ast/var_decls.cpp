@@ -46,7 +46,7 @@ void VarDeclVars::traverse() {
 
 void VarDeclVars::traverse(Type type) {
   for (auto v: vars) {
-    context.insert(v, CtxDataType(LocationType::var, v, type));
+    CONTEXT_INSERT(v, CtxDataType(LocationType::var, v, type));
   }
 }
 

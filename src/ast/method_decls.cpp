@@ -64,7 +64,7 @@ int MethodDecls::print() {
 }
 
 void MethodDeclArg::traverse() {
-  context.insert(id, CtxDataType(LocationType::var, id, type));
+  CONTEXT_INSERT(id, CtxDataType(LocationType::var, id, type));
 }
 
 void MethodDeclArgs::traverse() {
@@ -81,7 +81,7 @@ void MethodDecl::traverse() {
   auto cdt = CtxDataType(LocationType::method, id, type);
   cdt.isVoid = isVoid;
   cdt.method_args = args->get_types();
-  context.insert(id, cdt);
+  CONTEXT_INSERT(id, cdt);
 
   curMethodName = id;
   curMethodReturnVoid = isVoid;

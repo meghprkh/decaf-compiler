@@ -15,6 +15,10 @@ int get_lineno(); // default fallback which uses global lineno (inaccurate)
 // This uses the class's get_lineno if inherited from Base (basically not
 // Context) else the global fallback
 #define ERROR(eno, desc) errors.push_back(Error(eno, get_lineno(), desc))
+// Set the gllobal lineno in case of context lookup and insert, which is then used
+// for outputting correct lineno in error
+#define CONTEXT_LOOKUP(x) (lineno = get_lineno()) ? context.lookup(x) : CtxDataType()
+#define CONTEXT_INSERT(x, y) (lineno = get_lineno()) ? context.insert(x, y) : false
 
 enum class Type { _int, _boolean };
 

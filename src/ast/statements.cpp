@@ -163,7 +163,7 @@ void IfStatement::traverse() {
 void LoopStatement::traverse() {
   loop_depth++;
   context.newContext();
-  context.insert(id, CtxDataType(LocationType::var, id, Type::_int));
+  CONTEXT_INSERT(id, CtxDataType(LocationType::var, id, Type::_int));
   from->traverse();
   to->traverse();
   b->traverse();
