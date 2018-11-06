@@ -114,37 +114,37 @@ void ArithExpr::traverse() {
   l->traverse();
   r->traverse();
   if (l->get_type() != Type::_int)
-    errors.push_back(Error(12, "left subexpr not of type int"));
+    ERROR(12, "left subexpr not of type int");
   if (r->get_type() != Type::_int)
-    errors.push_back(Error(12, "right subexpr not of type int"));
+    ERROR(12, "right subexpr not of type int");
 }
 
 void RelExpr::traverse() {
   l->traverse();
   r->traverse();
   if (l->get_type() != Type::_int)
-    errors.push_back(Error(12, "left subexpr of relop not of type int"));
+    ERROR(12, "left subexpr of relop not of type int");
   if (r->get_type() != Type::_int)
-    errors.push_back(Error(12, "right subexpr of relop not of type int"));
+    ERROR(12, "right subexpr of relop not of type int");
 }
 
 void EqExpr::traverse() {
   l->traverse();
   r->traverse();
   if (l->get_type() != r->get_type())
-    errors.push_back(Error(13, "eqop types dont match " +
+    ERROR(13, "eqop types dont match " +
                                 typeToString(l->get_type()) + " != " +
                                 typeToString(r->get_type())
-                            ));
+                            );
 }
 
 void CondExpr::traverse() {
   l->traverse();
   r->traverse();
   if (l->get_type() != Type::_boolean)
-    errors.push_back(Error(14, "left subexpr of condop not of type boolean"));
+    ERROR(14, "left subexpr of condop not of type boolean");
   if (r->get_type() != Type::_boolean)
-    errors.push_back(Error(14, "right subexpr of condop not of type boolean"));
+    ERROR(14, "right subexpr of condop not of type boolean");
 }
 
 void UnaryMinusExpr::traverse() {
@@ -154,7 +154,7 @@ void UnaryMinusExpr::traverse() {
 void UnaryNotExpr::traverse() {
   e->traverse();
   if (e->get_type() != Type::_boolean)
-    errors.push_back(Error(14, "unary not's expr is not of type boolean"));
+    ERROR(14, "unary not's expr is not of type boolean");
 }
 
 void ParenthizedExpr::traverse() {

@@ -10,12 +10,22 @@
 #include "errors.hpp"
 using namespace std;
 
+int get_lineno(); // default fallback which uses global lineno (inaccurate)
+
+// This uses the class's get_lineno if inherited from Base (basically not
+// Context) else the global fallback
+#define ERROR(eno, desc) errors.push_back(Error(eno, get_lineno(), desc))
+
 enum class Type { _int, _boolean };
 
 class Base {
 public:
+  Base();
   virtual int print() = 0;
   virtual void traverse() = 0;
+  int get_lineno();
+private:
+  int lno;
 };
 
 class Expr: public Base {

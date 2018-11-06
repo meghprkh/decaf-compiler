@@ -19,6 +19,6 @@ void Program::traverse() {
   field_decls->traverse();
   method_decls->traverse();
   auto cdt = context.lookup(string("main"));
-  if (cdt.not_found) errors.push_back(Error(3, "main not found"));
-  if (!cdt.method_args.empty()) errors.push_back(Error(3, "main cannot take args"));
+  if (cdt.not_found) ERROR(3, "main not found");
+  if (!cdt.method_args.empty()) ERROR(3, "main cannot take args");
 }

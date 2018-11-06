@@ -60,7 +60,7 @@ int CalloutArgsList::print() {
 Type MethodCall::get_type() {
   auto cdt = context.lookup(fn);
   if (cdt.isVoid)
-    errors.push_back(Error(6, cdt.id + " used in expr even though returns void"));
+    ERROR(6, cdt.id + " used in expr even though returns void");
   return cdt.type;
 }
 
@@ -71,13 +71,12 @@ void MethodArgsList::traverse() {
 void MethodArgsList::traverse(string method_name, vector<Type> types) {
   int i = 0;
   if (list.size() != types.size())
-    errors.push_back(Error(5, method_name + " call differs in number of params"));
+    ERROR(5, method_name + " call differs in number of params");
   for (auto e: list) {
     e->traverse();
     if (e->get_type() != types[i])
-      errors.push_back(Error(5, method_name + " call, type of param " +
-                                to_string(i) + " shall be " + typeToString(types[i])
-                              ));
+      ERROR(5, method_name + " call, type of param " +
+               to_string(i) + " shall be " + typeToString(types[i]));
   }
 }
 

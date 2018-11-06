@@ -136,14 +136,14 @@ void AssignStatement::traverse() {
   location->traverse();
   expr->traverse();
   if (location->get_type() != expr->get_type()) {
-    errors.push_back(Error(15, "AssignStatement type mismatch : " +
+    ERROR(15, "AssignStatement type mismatch : " +
                                 location->get_id() + " | " +
                                 typeToString(location->get_type()) + " != " +
                                 typeToString(expr->get_type())
-                              ));
+                              );
   }
   if ((op == AssignOp::pe || op == AssignOp::me) && location->get_type() != Type::_int) {
-    errors.push_back(Error(16, location->get_id() + " not of type int"));
+    ERROR(16, location->get_id() + " not of type int");
   }
 }
 
@@ -156,7 +156,7 @@ void IfStatement::traverse() {
   if_true->traverse();
   if (if_false) if_false->traverse();
   if (condition->get_type() != Type::_boolean) {
-    errors.push_back(Error(11, "if cannot have condition of type " + typeToString(condition->get_type())));
+    ERROR(11, "if cannot have condition of type " + typeToString(condition->get_type()));
   }
 }
 
@@ -168,9 +168,9 @@ void LoopStatement::traverse() {
   to->traverse();
   b->traverse();
   if (from->get_type() != Type::_int)
-    errors.push_back(Error(17, "from expr of LoopStatement not of type int"));
+    ERROR(17, "from expr of LoopStatement not of type int");
   if (to->get_type() != Type::_int)
-    errors.push_back(Error(17, "to expr of LoopStatement not of type int"));
+    ERROR(17, "to expr of LoopStatement not of type int");
   context.popContext();
   loop_depth--;
 }
@@ -179,18 +179,18 @@ void ReturnStatement::traverse() {
   if (e) e->traverse();
   if (!curMethodReturnVoid) {
     if (!e)
-      errors.push_back(Error(8, curMethodName + " cannot have void return"));
+      ERROR(8, curMethodName + " cannot have void return");
     else if (e->get_type() != curMethodReturnType)
-      errors.push_back(Error(8, curMethodName + " cannot have return type " + typeToString(e->get_type())));
+      ERROR(8, curMethodName + " cannot have return type " + typeToString(e->get_type()));
   } else {
-    if (e) errors.push_back(Error(7, curMethodName + " shall not have return body"));
+    if (e) ERROR(7, curMethodName + " shall not have return body");
   }
 }
 
 void BreakStatement::traverse() {
-  if (loop_depth <= 0) errors.push_back(Error(18, "break outside loop"));
+  if (loop_depth <= 0) ERROR(18, "break outside loop");
 }
 
 void ContinueStatement::traverse() {
-  if (loop_depth <= 0) errors.push_back(Error(18, "continue outside loop"));
+  if (loop_depth <= 0) ERROR(18, "continue outside loop");
 }
