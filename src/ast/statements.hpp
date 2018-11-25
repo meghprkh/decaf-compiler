@@ -3,6 +3,9 @@
 #include "base.hpp"
 #include "var_decls.hpp"
 #include "calls.hpp"
+#include "literals.hpp"
+#include "locations.hpp"
+#include "exprs.hpp"
 
 class StatementsList: public Base {
 public:

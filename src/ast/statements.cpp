@@ -303,7 +303,40 @@ llvm::Value* IfStatement::codegen() {
 }
 
 llvm::Value* LoopStatement::codegen() {
-  return nullptr;
+  mllvm->ctx->newContext();
+  mllvm->ctx->insert(id, Type::_int);
+  mllvm->ctx->update(id, from->codegen());
+  auto step = (Expr*) new IntLiteral("1");
+
+  auto conditionBB = mllvm->getBasicBlock("loopCondition");
+  auto bodyBB = mllvm->getBasicBlock("loopBody");
+  auto afterBB = mllvm->getBasicBlock("loopAfter");
+  mllvm->currentFn->getBasicBlockList().push_back(bodyBB);
+  mllvm->currentFn->getBasicBlockList().push_back(afterBB);
+  auto loopvar = (Location*) new VarLocation(id.c_str());
+
+  auto start = new AssignStatement(loopvar, AssignOp::eq, from);
+  start->codegen();
+
+  mllvm->Builder->CreateBr(conditionBB);
+  mllvm->Builder->SetInsertPoint(conditionBB);
+  auto condition = new RelExpr((Expr*) loopvar, RelOp::lt, to);
+  auto conditionV = condition->codegen();
+
+  mllvm->Builder->CreateCondBr(conditionV, bodyBB, afterBB);
+
+  mllvm->Builder->SetInsertPoint(bodyBB);
+  b->codegen();
+  if (!b->isReturn()) {
+    auto increment = new AssignStatement(loopvar, AssignOp::pe, step);
+    increment->codegen();
+    mllvm->Builder->CreateBr(conditionBB);
+  }
+
+  mllvm->ctx->popContext();
+
+  mllvm->Builder->SetInsertPoint(afterBB);
+  return afterBB;
 }
 
 llvm::Value* ReturnStatement::codegen() {

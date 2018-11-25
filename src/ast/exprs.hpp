@@ -1,3 +1,5 @@
+#pragma once
+
 #include "base.hpp"
 
 enum class ArithOp { add, sub, mul, div, mod };

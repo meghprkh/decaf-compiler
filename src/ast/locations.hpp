@@ -1,3 +1,5 @@
+#pragma once
+
 #include "base.hpp"
 
 class VarLocation: public Location {
