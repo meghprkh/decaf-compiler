@@ -39,8 +39,8 @@ void printRelation(int to) {
 llvm::Value* wrap(Base *Body) {
   llvm::FunctionType *FT = llvm::FunctionType::get(llvm::Type::getInt32Ty(mllvm->Context), false);
   llvm::Function *F = llvm::Function::Create(FT, llvm::Function::ExternalLinkage, "main", mllvm->TheModule);
-  llvm::BasicBlock *BB = llvm::BasicBlock::Create(mllvm->Context, "entry", F);
   mllvm->currentFn = F;
+  llvm::BasicBlock *BB = mllvm->getBasicBlock("entry");
   mllvm->Builder->SetInsertPoint(BB);
   if (Body->codegen()) {
     // Validate the generated code, checking for consistency.

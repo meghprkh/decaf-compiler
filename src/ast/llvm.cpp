@@ -11,6 +11,10 @@ llvm::AllocaInst* MLLVM::getAllocaInst(string id, Type type) {
   return TmpB.CreateAlloca(llvmtype(type), 0, id);
 }
 
+llvm::BasicBlock* MLLVM::getBasicBlock(const char *desc) {
+  return llvm::BasicBlock::Create(this->Context, desc, this->currentFn);
+}
+
 void MLLVMContext::newContext() {
   ctx.push_front(map<string, llvm::AllocaInst*> ());
 }

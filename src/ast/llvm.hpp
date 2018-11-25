@@ -39,4 +39,5 @@ public:
   MLLVM();
   MLLVMContext* ctx;
   llvm::AllocaInst* getAllocaInst(string id, Type type);
+  llvm::BasicBlock* getBasicBlock(const char* desc);
 };
