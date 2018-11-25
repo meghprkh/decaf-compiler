@@ -264,7 +264,7 @@ int main(int argc, char **argv)
 	// start->print();
 
 	wrap(start);
-	// mllvm->TheModule->print(llvm::errs(), nullptr);
+	mllvm->TheModule->print(llvm::errs(), nullptr);
 }
 
 void yyerror(const char *s)

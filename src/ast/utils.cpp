@@ -38,7 +38,7 @@ void printRelation(int to) {
 
 llvm::Value* wrap(Base *Body) {
   llvm::FunctionType *FT = llvm::FunctionType::get(llvm::Type::getInt32Ty(mllvm->Context), false);
-  llvm::Function *F = llvm::Function::Create(FT, llvm::Function::ExternalLinkage, "abcd", mllvm->TheModule);
+  llvm::Function *F = llvm::Function::Create(FT, llvm::Function::ExternalLinkage, "main", mllvm->TheModule);
   llvm::BasicBlock *BB = llvm::BasicBlock::Create(mllvm->Context, "entry", F);
   mllvm->Builder->SetInsertPoint(BB);
   if (llvm::Value *RetVal = Body->codegen()) {
@@ -48,10 +48,31 @@ llvm::Value* wrap(Base *Body) {
     // Validate the generated code, checking for consistency.
     llvm::verifyFunction(*F);
 
-    F->print(llvm::errs());
+    // F->print(llvm::errs());
     return F;
   }
 
   F->eraseFromParent();
+  return nullptr;
+}
+
+llvm::Type* llvmtype(Type type) {
+  return llvmtype(&type);
+}
+
+llvm::Type* llvmtype(Type* type) {
+  switch(*type) {
+    case Type::_int : return llvm::Type::getInt32Ty(mllvm->Context);
+    case Type::_boolean : return llvm::Type::getInt1Ty(mllvm->Context);
+  }
+  return nullptr;
+}
+
+llvm::Value* CODEGEN_ERROR(string s) {
+  return CODEGEN_ERROR(s.c_str());
+}
+
+llvm::Value* CODEGEN_ERROR(const char* s) {
+  ERROR(-1, s);
   return nullptr;
 }

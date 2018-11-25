@@ -109,5 +109,27 @@ llvm::Value* CalloutArgsList::codegen() {
 }
 
 llvm::Value* Callout::codegen() {
-  return nullptr;
+  std::vector<llvm::Type *> argTypes;
+  std::vector<llvm::Value *> Args;
+  auto args_list = args->list;
+  /**
+   * Iterate through the arguments and generate the code required for each one of them
+   */
+  for (auto i : args_list) {
+      auto e = i.first ? i.first : i.second;
+      auto tmp = e->codegen();
+      if (tmp == nullptr) return nullptr;
+      Args.push_back(tmp);
+      argTypes.push_back(tmp->getType());
+  }
+  /* Generate the code for the function execution */
+  llvm::ArrayRef<llvm::Type *> argsRef(argTypes);
+  llvm::ArrayRef<llvm::Value *> funcargs(Args);
+  llvm::FunctionType *FType = llvm::FunctionType::get(llvmtype(Type::_int), argsRef, false);
+  llvm::Constant *func = mllvm->TheModule->getOrInsertFunction(fn, FType);
+  if (!func) {
+      return CODEGEN_ERROR("Error in inbuilt function. Unknown Function name " + fn);
+  }
+  auto v = mllvm->Builder->CreateCall(func, funcargs);
+  return v;
 }

@@ -9,6 +9,11 @@ if [ $# -eq 0 ]; then
   FILE="tmphelper"
 fi
 
-./decaf "$FILE" >tmpout
-mmdc -i tmpout -o tmpout.svg
-firefox tmpout.svg 2>/dev/null 1>&2
+./decaf "$FILE" >tmpout 2>tmp.ll
+# mmdc -i tmpout -o tmpout.svg
+# firefox tmpout.svg 2>/dev/null 1>&2
+echo; echo; echo '###### LLVM IR ######'; echo; echo
+cat tmp.ll
+
+echo; echo; echo '###### Executing IR ######'; echo; echo
+lli tmp.ll

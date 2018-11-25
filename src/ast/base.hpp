@@ -109,3 +109,8 @@ extern Context context;
 extern MLLVM* mllvm;
 
 llvm::Value* wrap(Base* body);
+llvm::Type* llvmtype(Type type);
+llvm::Type* llvmtype(Type* type);
+
+llvm::Value* CODEGEN_ERROR(string s);
+llvm::Value* CODEGEN_ERROR(const char* s);

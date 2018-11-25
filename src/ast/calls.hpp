@@ -35,7 +35,6 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
-private:
   deque<pair<Expr*, StringLiteral*> > list;
 };
 

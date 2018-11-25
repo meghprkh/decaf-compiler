@@ -27,8 +27,8 @@ hex_digit {digit}|[a-fA-F]
 "void" { return VOID; }
 
 "true"|"false" { yylval.token = strdup(yytext); return BOOL_LITERAL; }
-\"{char}*\" { yylval.token = strdup(yytext); return STRING_LITERAL; }
-\'{char}\' { yylval.token = strdup(yytext); return CHAR_LITERAL; }
+\"{char}*\" { yylval.token = strndup(&yytext[1], strlen(yytext)-2); return STRING_LITERAL; }
+\'{char}\' { yylval.token = strndup(&yytext[1], strlen(yytext)-2); return CHAR_LITERAL; }
 {digit}+ { yylval.token = strdup(yytext); return INT_LITERAL; }
 "0x"{hex_digit}+ { yylval.token = strdup(yytext); return INT_LITERAL; }
 {alpha}{alphanum}*	{ yylval.token = strdup(yytext); return ID; }
