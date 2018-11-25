@@ -1,0 +1,32 @@
+#!/bin/sh
+
+exec > Makefile 2>&1
+
+flags="`llvm-config --cxxflags --ldflags --system-libs --libs all | tr '\n' ' '` -fexceptions"
+
+ofiles=""
+
+for f in `ls ast/*.cpp`; do
+  bf="${f##*/}"
+  ofiles="$ofiles ${bf%.*}.o"
+done
+
+echo "parser: ps.o $ofiles"
+echo "\tg++ -g -o decaf $flags *.o -ll\n"
+
+echo "ps.o: parser.tab.cpp lex.yy.c"
+echo "\tg++ -c $flags parser.tab.cpp lex.yy.c -ll\n"
+
+echo "parser.tab.cpp: parser.ypp"
+echo "\tbison -d parser.ypp"
+
+echo "lex.yy.c: scanner.l"
+echo "\tflex scanner.l"
+
+for f in `ls ast/*.cpp`; do
+  bf="${f##*/}"
+  echo "${bf%.*}.o: $f"
+  echo "\tg++ $flags -c $f\n"
+done
+
+echo "clean:\n\trm -f decaf parser.tab.* lex.yy.c **/*.gch *.o"
