@@ -40,11 +40,9 @@ llvm::Value* wrap(Base *Body) {
   llvm::FunctionType *FT = llvm::FunctionType::get(llvm::Type::getInt32Ty(mllvm->Context), false);
   llvm::Function *F = llvm::Function::Create(FT, llvm::Function::ExternalLinkage, "main", mllvm->TheModule);
   llvm::BasicBlock *BB = llvm::BasicBlock::Create(mllvm->Context, "entry", F);
+  mllvm->currentFn = F;
   mllvm->Builder->SetInsertPoint(BB);
-  if (llvm::Value *RetVal = Body->codegen()) {
-    // Finish off the function.
-    mllvm->Builder->CreateRet(RetVal);
-
+  if (Body->codegen()) {
     // Validate the generated code, checking for consistency.
     llvm::verifyFunction(*F);
 

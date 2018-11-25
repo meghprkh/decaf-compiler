@@ -65,13 +65,15 @@ llvm::Value* VarDeclVars::codegen() {
 }
 
 llvm::Value* VarDeclVars::codegen(Type type) {
+  for (auto id: vars) mllvm->ctx->insert(id, type);
   return nullptr;
 }
 
 llvm::Value* VarDecl::codegen() {
-  return nullptr;
+  return vars->codegen(type);
 }
 
 llvm::Value* VarDecls::codegen() {
+  for (auto v: list) v->codegen();
   return nullptr;
 }

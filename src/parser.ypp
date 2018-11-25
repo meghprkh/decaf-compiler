@@ -69,7 +69,7 @@ Context context;
 %%
 
 start
-	: expr { $$ = $1; start = $$; }
+	: block { $$ = $1; start = $$; }
 	;
 
 program

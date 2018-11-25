@@ -8,6 +8,7 @@
 #include <deque>
 #include <iostream>
 #include "errors.hpp"
+#include "base_minimal.hpp"
 #include "llvm.hpp"
 using namespace std;
 
@@ -21,7 +22,6 @@ int get_lineno(); // default fallback which uses global lineno (inaccurate)
 #define CONTEXT_LOOKUP(x) (lineno = get_lineno()) ? context.lookup(x) : CtxDataType()
 #define CONTEXT_INSERT(x, y) (lineno = get_lineno()) ? context.insert(x, y) : false
 
-enum class Type { _int, _boolean };
 
 class Base {
 public:

@@ -38,7 +38,7 @@ void ArrLocation::traverse() {
 }
 
 llvm::Value* VarLocation::codegen() {
-  return nullptr;
+  return mllvm->ctx->load(id);
 }
 
 llvm::Value* ArrLocation::codegen() {

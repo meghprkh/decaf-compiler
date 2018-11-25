@@ -197,19 +197,40 @@ void ContinueStatement::traverse() {
 
 
 llvm::Value* StatementsList::codegen() {
-  return nullptr;
+  llvm::Value* v;
+  for (auto s: list) v = s->codegen();
+  return v;
 }
 
 llvm::Value* Block::codegen() {
-  return nullptr;
+  mllvm->ctx->newContext();
+  var_decls->codegen();
+  llvm::Value* v = list->codegen();
+  mllvm->ctx->popContext();
+  return v;
 }
 
 llvm::Value* AssignStatement::codegen() {
-  return nullptr;
+  auto lhs = location->get_id();
+  auto rhs = expr->codegen();
+
+  auto val = op == AssignOp::eq ? rhs : mllvm->ctx->load(lhs);
+
+  switch (op) {
+    case AssignOp::eq :
+      break;
+    case AssignOp::pe :
+      val = mllvm->Builder->CreateAdd(val, rhs, "assignStatement:pe");
+      break;
+    case AssignOp::me :
+      val = mllvm->Builder->CreateSub(val, rhs, "assignStatement:me");
+      break;
+  }
+  return mllvm->ctx->update(lhs, val);
 }
 
 llvm::Value* MethodCallStatement::codegen() {
-  return nullptr;
+  return method_call->codegen();
 }
 
 llvm::Value* IfStatement::codegen() {
@@ -221,7 +242,8 @@ llvm::Value* LoopStatement::codegen() {
 }
 
 llvm::Value* ReturnStatement::codegen() {
-  return nullptr;
+  if (e) return mllvm->Builder->CreateRet(e->codegen());
+  else return mllvm->Builder->CreateRetVoid();
 }
 
 llvm::Value* BreakStatement::codegen() {
