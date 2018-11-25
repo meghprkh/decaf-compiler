@@ -196,6 +196,46 @@ void ContinueStatement::traverse() {
 }
 
 
+
+bool StatementsList::isReturn() {
+  for (auto s: list) if (s->isReturn()) return true;
+  return false;
+}
+
+bool Block::isReturn() {
+  return list->isReturn();
+}
+
+bool AssignStatement::isReturn() {
+  return false;
+}
+
+bool MethodCallStatement::isReturn() {
+  return false;
+}
+
+bool IfStatement::isReturn() {
+  return false;
+}
+
+bool LoopStatement::isReturn() {
+  return false;
+}
+
+bool ReturnStatement::isReturn() {
+  return true;
+}
+
+bool BreakStatement::isReturn() {
+  return false;
+}
+
+bool ContinueStatement::isReturn() {
+  return false;
+}
+
+
+
 llvm::Value* StatementsList::codegen() {
   llvm::Value* v;
   for (auto s: list) v = s->codegen();
@@ -234,7 +274,32 @@ llvm::Value* MethodCallStatement::codegen() {
 }
 
 llvm::Value* IfStatement::codegen() {
-  return nullptr;
+  auto conditionV = condition->codegen();
+  auto ifBB = mllvm->getBasicBlock("if");
+  auto elseBB = mllvm->getBasicBlock("else");
+  auto mergeBB = mllvm->getBasicBlock("ifcont");
+
+  mllvm->Builder->CreateCondBr(conditionV, ifBB, elseBB);
+
+  // Emit if block
+  mllvm->Builder->SetInsertPoint(ifBB);
+  auto ifV = if_true->codegen();
+  if (!ifV) return nullptr;
+  if (!if_true->isReturn()) mllvm->Builder->CreateBr(mergeBB);
+
+  if (if_false) {
+    // Emit else block.
+    mllvm->currentFn->getBasicBlockList().push_back(elseBB);
+    mllvm->Builder->SetInsertPoint(elseBB);
+    auto elseV = if_false->codegen();
+    if (!elseV) return nullptr;
+    if (!if_false->isReturn()) mllvm->Builder->CreateBr(mergeBB);
+  }
+
+  // Emit merge block.
+  mllvm->currentFn->getBasicBlockList().push_back(mergeBB);
+  mllvm->Builder->SetInsertPoint(mergeBB);
+  return mergeBB;
 }
 
 llvm::Value* LoopStatement::codegen() {

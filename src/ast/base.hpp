@@ -57,6 +57,7 @@ public:
   virtual int print() = 0;
   virtual void traverse() = 0;
   virtual llvm::Value* codegen() = 0;
+  virtual bool isReturn() = 0;
 };
 
 string typeToString(Type type);

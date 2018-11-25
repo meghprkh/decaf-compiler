@@ -11,6 +11,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 private:
   deque<Statement*> list;
 };
@@ -22,6 +23,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 private:
   VarDecls* var_decls;
   StatementsList* list;
@@ -35,6 +37,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 private:
   Location* location;
   AssignOp op;
@@ -47,6 +50,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 private:
   MethodCall* method_call;
 };
@@ -57,6 +61,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 private:
   Expr* condition;
   Block *if_true, *if_false;
@@ -69,6 +74,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 private:
   string id;
   Expr *from, *to;
@@ -85,6 +91,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 private:
   Expr *e;
 };
@@ -95,6 +102,7 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 };
 
 class ContinueStatement: public Statement {
@@ -103,4 +111,5 @@ public:
   int print();
   void traverse();
   llvm::Value* codegen();
+  bool isReturn();
 };
