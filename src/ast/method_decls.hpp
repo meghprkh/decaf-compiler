@@ -6,6 +6,7 @@ public:
   MethodDeclArg(Type _type, const char *_id);
   int print();
   void traverse();
+  llvm::Value* codegen();
   Type get_type() { return type; }
 private:
   Type type;
@@ -18,6 +19,7 @@ public:
   void add(MethodDeclArg* arg);
   int print();
   void traverse();
+  llvm::Value* codegen();
   vector<Type> get_types();
 private:
   deque<MethodDeclArg*> args;
@@ -29,6 +31,7 @@ public:
   MethodDecl(const char *_id, MethodDeclArgs* _args, Block* _block);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   bool isVoid = true;
   Type type;
@@ -43,6 +46,7 @@ public:
   void add(MethodDecl* method_decl);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   deque<MethodDecl*> list;
 };

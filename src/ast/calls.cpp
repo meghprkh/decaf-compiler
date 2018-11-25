@@ -95,3 +95,19 @@ void CalloutArgsList::traverse() {
 void Callout::traverse() {
   args->traverse();
 }
+
+llvm::Value* MethodArgsList::codegen() {
+  return nullptr;
+}
+
+llvm::Value* MethodCall::codegen() {
+  return nullptr;
+}
+
+llvm::Value* CalloutArgsList::codegen() {
+  return nullptr;
+}
+
+llvm::Value* Callout::codegen() {
+  return nullptr;
+}

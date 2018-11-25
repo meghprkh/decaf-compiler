@@ -11,6 +11,7 @@ class Base* start;
 extern union Node yylval;
 int pidcount;
 vector<Error> errors;
+MLLVM* mllvm = new MLLVM();
 
 Context context;
 

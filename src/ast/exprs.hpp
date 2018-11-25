@@ -11,6 +11,7 @@ public:
   int print();
   Type get_type() { return Type::_int; }
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr *l, *r;
   ArithOp op;
@@ -22,6 +23,7 @@ public:
   int print();
   Type get_type() { return Type::_boolean; }
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr *l, *r;
   RelOp op;
@@ -33,6 +35,7 @@ public:
   int print();
   Type get_type() { return Type::_boolean; }
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr *l, *r;
   EqOp op;
@@ -44,6 +47,7 @@ public:
   int print();
   Type get_type() { return Type::_boolean; }
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr *l, *r;
   CondOp op;
@@ -55,6 +59,7 @@ public:
   int print();
   Type get_type() { return e->get_type(); }
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr* e;
 };
@@ -65,6 +70,7 @@ public:
   int print();
   Type get_type() { return Type::_boolean; }
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr* e;
 };
@@ -75,6 +81,7 @@ public:
   int print();
   Type get_type() { return e->get_type(); }
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr* e;
 };

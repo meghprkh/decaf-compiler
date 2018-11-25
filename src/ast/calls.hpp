@@ -10,6 +10,7 @@ public:
   int print();
   void traverse();
   void traverse(string method_name, vector<Type> types);
+  llvm::Value* codegen();
 private:
   deque<Expr*> list;
 };
@@ -20,6 +21,7 @@ public:
   int print();
   Type get_type();
   void traverse();
+  llvm::Value* codegen();
 private:
   string fn;
   MethodArgsList* args;
@@ -32,6 +34,7 @@ public:
   void add(StringLiteral* s);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   deque<pair<Expr*, StringLiteral*> > list;
 };
@@ -42,6 +45,7 @@ public:
   int print();
   Type get_type() { return Type::_boolean; }
   void traverse();
+  llvm::Value* codegen();
 private:
   string fn;
   CalloutArgsList* args;

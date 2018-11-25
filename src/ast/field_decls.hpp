@@ -8,6 +8,8 @@ public:
   int print();
   void traverse();
   void traverse(Type type);
+  llvm::Value* codegen();
+  llvm::Value* codegen(Type type);
 private:
   deque<string> vars;
   deque<pair<string, int> > arrs;
@@ -18,6 +20,7 @@ public:
   FieldDecl(Type _type, FieldDeclArgs* _args);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   Type type;
   FieldDeclArgs* args;
@@ -29,6 +32,7 @@ public:
   void add(FieldDecl* _f);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   deque<FieldDecl*> list;
 };

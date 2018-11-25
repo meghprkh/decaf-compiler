@@ -71,3 +71,19 @@ void FieldDecl::traverse() {
 void FieldDecls::traverse() {
   for (auto f: list) f->traverse();
 }
+
+llvm::Value* FieldDeclArgs::codegen() {
+  return nullptr;
+}
+
+llvm::Value* FieldDeclArgs::codegen(Type type) {
+  return nullptr;
+}
+
+llvm::Value* FieldDecl::codegen() {
+  return nullptr;
+}
+
+llvm::Value* FieldDecls::codegen() {
+  return nullptr;
+}

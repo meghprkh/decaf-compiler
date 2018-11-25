@@ -10,6 +10,7 @@ public:
   void add(Statement* statement);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   deque<Statement*> list;
 };
@@ -20,6 +21,7 @@ public:
   Block(VarDecls* _var_decls, StatementsList* _list);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   VarDecls* var_decls;
   StatementsList* list;
@@ -32,6 +34,7 @@ public:
   AssignStatement(Location* _location, AssignOp _op, Expr* _expr);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   Location* location;
   AssignOp op;
@@ -43,6 +46,7 @@ public:
   MethodCallStatement(MethodCall* _method_call);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   MethodCall* method_call;
 };
@@ -52,6 +56,7 @@ public:
   IfStatement(Expr* _condition, Block* _if_true, Block* _if_false = NULL);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr* condition;
   Block *if_true, *if_false;
@@ -63,6 +68,7 @@ public:
   LoopStatement(const char *_id, Expr* _from, Expr *_to, Block *_b);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   string id;
   Expr *from, *to;
@@ -78,6 +84,7 @@ public:
   ReturnStatement(Expr* _e = NULL);
   int print();
   void traverse();
+  llvm::Value* codegen();
 private:
   Expr *e;
 };
@@ -87,6 +94,7 @@ public:
   BreakStatement() {};
   int print();
   void traverse();
+  llvm::Value* codegen();
 };
 
 class ContinueStatement: public Statement {
@@ -94,4 +102,5 @@ public:
   ContinueStatement() {};
   int print();
   void traverse();
+  llvm::Value* codegen();
 };

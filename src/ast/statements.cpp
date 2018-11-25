@@ -194,3 +194,40 @@ void BreakStatement::traverse() {
 void ContinueStatement::traverse() {
   if (loop_depth <= 0) ERROR(18, "continue outside loop");
 }
+
+
+llvm::Value* StatementsList::codegen() {
+  return nullptr;
+}
+
+llvm::Value* Block::codegen() {
+  return nullptr;
+}
+
+llvm::Value* AssignStatement::codegen() {
+  return nullptr;
+}
+
+llvm::Value* MethodCallStatement::codegen() {
+  return nullptr;
+}
+
+llvm::Value* IfStatement::codegen() {
+  return nullptr;
+}
+
+llvm::Value* LoopStatement::codegen() {
+  return nullptr;
+}
+
+llvm::Value* ReturnStatement::codegen() {
+  return nullptr;
+}
+
+llvm::Value* BreakStatement::codegen() {
+  return nullptr;
+}
+
+llvm::Value* ContinueStatement::codegen() {
+  return nullptr;
+}

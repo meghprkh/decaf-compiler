@@ -22,3 +22,7 @@ void Program::traverse() {
   if (cdt.not_found) ERROR(3, "main not found");
   if (!cdt.method_args.empty()) ERROR(3, "main cannot take args");
 }
+
+llvm::Value* Program::codegen() {
+  return nullptr;
+}

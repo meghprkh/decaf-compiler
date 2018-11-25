@@ -8,6 +8,7 @@
 #include <deque>
 #include <iostream>
 #include "errors.hpp"
+#include "llvm.hpp"
 using namespace std;
 
 int get_lineno(); // default fallback which uses global lineno (inaccurate)
@@ -27,6 +28,7 @@ public:
   Base();
   virtual int print() = 0;
   virtual void traverse() = 0;
+  virtual llvm::Value* codegen() = 0;
   int get_lineno();
 private:
   int lno;
@@ -38,6 +40,7 @@ public:
   virtual int print() = 0;
   virtual void traverse() = 0;
   virtual Type get_type() = 0;
+  virtual llvm::Value* codegen() = 0;
 };
 
 class Location: public Expr {
@@ -45,6 +48,7 @@ public:
   virtual int print() = 0;
   virtual void traverse() = 0;
   virtual string get_id() = 0;
+  virtual llvm::Value* codegen() = 0;
 };
 
 class Statement: public Base {
@@ -52,6 +56,7 @@ class Statement: public Base {
 public:
   virtual int print() = 0;
   virtual void traverse() = 0;
+  virtual llvm::Value* codegen() = 0;
 };
 
 string typeToString(Type type);
@@ -101,3 +106,4 @@ private:
 
 
 extern Context context;
+extern MLLVM* mllvm;

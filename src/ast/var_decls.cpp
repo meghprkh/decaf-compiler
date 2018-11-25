@@ -58,3 +58,20 @@ void VarDecls::traverse() {
   // Add to current context. Dont create new context
   for (auto v: list) v->traverse();
 }
+
+
+llvm::Value* VarDeclVars::codegen() {
+  return nullptr;
+}
+
+llvm::Value* VarDeclVars::codegen(Type type) {
+  return nullptr;
+}
+
+llvm::Value* VarDecl::codegen() {
+  return nullptr;
+}
+
+llvm::Value* VarDecls::codegen() {
+  return nullptr;
+}

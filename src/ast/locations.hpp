@@ -7,6 +7,7 @@ public:
   Type get_type() { return type; }
   string get_id() { return id; }
   void traverse();
+  llvm::Value* codegen();
 private:
   string id;
   Type type;
@@ -19,6 +20,7 @@ public:
   Type get_type() { return type; }
   string get_id() { return id; }
   void traverse();
+  llvm::Value* codegen();
 private:
   string id;
   Expr* index;

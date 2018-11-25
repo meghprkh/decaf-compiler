@@ -160,3 +160,66 @@ void UnaryNotExpr::traverse() {
 void ParenthizedExpr::traverse() {
   e->traverse();
 }
+
+llvm::Value* ArithExpr::codegen() {
+  llvm::Value *left = l->codegen();
+  llvm::Value *right = r->codegen();
+  llvm::Value *v = nullptr;
+  switch (op) {
+    case ArithOp::add : v = mllvm->Builder->CreateAdd(left, right, "addexpr"); break;
+    case ArithOp::sub : v = mllvm->Builder->CreateSub(left, right, "subexpr"); break;
+    case ArithOp::mul : v = mllvm->Builder->CreateMul(left, right, "mulexpr"); break;
+    case ArithOp::div : v = mllvm->Builder->CreateSDiv(left, right, "divexpr"); break;
+    case ArithOp::mod : v = mllvm->Builder->CreateSRem(left, right, "modexpr"); break;
+  }
+  return v;
+}
+
+llvm::Value* RelExpr::codegen() {
+  llvm::Value *left = l->codegen();
+  llvm::Value *right = r->codegen();
+  llvm::Value *v = nullptr;
+  switch (op) {
+    case RelOp::lt : v = mllvm->Builder->CreateICmpSLT(left, right, "ltexpr"); break;
+    case RelOp::gt : v = mllvm->Builder->CreateICmpSGT(left, right, "gtexpr"); break;
+    case RelOp::le : v = mllvm->Builder->CreateICmpSLE(left, right, "leexpr"); break;
+    case RelOp::ge : v = mllvm->Builder->CreateICmpSGE(left, right, "geexpr"); break;
+  }
+  return v;
+}
+
+llvm::Value* EqExpr::codegen() {
+  llvm::Value *left = l->codegen();
+  llvm::Value *right = r->codegen();
+  llvm::Value *v = nullptr;
+  switch (op) {
+    case EqOp::eq : v = mllvm->Builder->CreateICmpEQ(left, right, "eqexpr"); break;
+    case EqOp::ne : v = mllvm->Builder->CreateICmpNE(left, right, "neexpr"); break;
+  }
+  return v;
+}
+
+llvm::Value* CondExpr::codegen() {
+  llvm::Value *left = l->codegen();
+  llvm::Value *right = r->codegen();
+  llvm::Value *v = nullptr;
+  switch (op) {
+    case CondOp::_and : v = mllvm->Builder->CreateAnd(left, right, "andexpr"); break;
+    case CondOp::_or : v = mllvm->Builder->CreateOr(left, right, "orexpr"); break;
+  }
+  return v;
+}
+
+llvm::Value* UnaryMinusExpr::codegen() {
+  llvm::Value* v = e->codegen();
+  return mllvm->Builder->CreateNeg(v, "negexpr");
+}
+
+llvm::Value* UnaryNotExpr::codegen() {
+  llvm::Value* v = e->codegen();
+  return mllvm->Builder->CreateNot(v, "notexpr");
+}
+
+llvm::Value* ParenthizedExpr::codegen() {
+  return e->codegen();
+}

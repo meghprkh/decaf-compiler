@@ -51,3 +51,19 @@ Type BoolLiteral::get_type() {
 Type StringLiteral::get_type() {
   return Type::_int;
 }
+
+llvm::Value* IntLiteral::codegen() {
+  return llvm::ConstantInt::get(mllvm->Context, llvm::APInt(32, static_cast<uint64_t>(value), true));
+}
+
+llvm::Value* CharLiteral::codegen() {
+  return llvm::ConstantInt::get(mllvm->Context, llvm::APInt(8, static_cast<uint64_t>(value)));
+}
+
+llvm::Value* BoolLiteral::codegen() {
+  return llvm::ConstantInt::get(mllvm->Context, llvm::APInt(1, value));
+}
+
+llvm::Value* StringLiteral::codegen() {
+  return mllvm->Builder->CreateGlobalStringPtr(value);
+}

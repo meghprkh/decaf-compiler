@@ -95,3 +95,19 @@ void MethodDecl::traverse() {
 void MethodDecls::traverse() {
   for (auto m: list) m->traverse();
 }
+
+llvm::Value* MethodDeclArg::codegen() {
+  return nullptr;
+}
+
+llvm::Value* MethodDeclArgs::codegen() {
+  return nullptr;
+}
+
+llvm::Value* MethodDecl::codegen() {
+  return nullptr;
+}
+
+llvm::Value* MethodDecls::codegen() {
+  return nullptr;
+}

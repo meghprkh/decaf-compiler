@@ -36,3 +36,11 @@ void ArrLocation::traverse() {
   }
   type = cdt.type;
 }
+
+llvm::Value* VarLocation::codegen() {
+  return nullptr;
+}
+
+llvm::Value* ArrLocation::codegen() {
+  return nullptr;
+}
