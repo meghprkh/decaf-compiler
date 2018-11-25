@@ -107,3 +107,5 @@ private:
 
 extern Context context;
 extern MLLVM* mllvm;
+
+llvm::Value* wrap(Base* body);

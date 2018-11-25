@@ -30,6 +30,7 @@ Context context;
 %left '*' '/' '%'
 %nonassoc '!'
 
+%type <base> start
 %type <base> program
 
 %type <field_decls> field_decls;
@@ -66,6 +67,10 @@ Context context;
 %type <callout_args> callout_args
 
 %%
+
+start
+	: expr { $$ = $1; start = $$; }
+	;
 
 program
 	: CLASS ID '{' field_decls method_decls '}' { $$ = new Program($4, $5); start = $$; }
@@ -255,8 +260,11 @@ int main(int argc, char **argv)
 	}
 
 	pidcount = 0;
-	printf("graph TD\n");
-	start->print();
+	// printf("graph TD\n");
+	// start->print();
+
+	wrap(start);
+	// mllvm->TheModule->print(llvm::errs(), nullptr);
 }
 
 void yyerror(const char *s)

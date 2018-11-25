@@ -35,3 +35,23 @@ void printRelation(int from, int to) {
 void printRelation(int to) {
   printRelation(pidcount, to);
 }
+
+llvm::Value* wrap(Base *Body) {
+  llvm::FunctionType *FT = llvm::FunctionType::get(llvm::Type::getInt32Ty(mllvm->Context), false);
+  llvm::Function *F = llvm::Function::Create(FT, llvm::Function::ExternalLinkage, "abcd", mllvm->TheModule);
+  llvm::BasicBlock *BB = llvm::BasicBlock::Create(mllvm->Context, "entry", F);
+  mllvm->Builder->SetInsertPoint(BB);
+  if (llvm::Value *RetVal = Body->codegen()) {
+    // Finish off the function.
+    mllvm->Builder->CreateRet(RetVal);
+
+    // Validate the generated code, checking for consistency.
+    llvm::verifyFunction(*F);
+
+    F->print(llvm::errs());
+    return F;
+  }
+
+  F->eraseFromParent();
+  return nullptr;
+}
