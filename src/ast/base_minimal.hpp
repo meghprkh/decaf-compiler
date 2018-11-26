@@ -33,6 +33,7 @@ public:
   virtual void traverse() = 0;
   virtual Type get_type() = 0;
   virtual llvm::Value* codegen() = 0;
+  llvm::Value* codegenf();
 };
 
 class Location: public Expr {

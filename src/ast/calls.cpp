@@ -116,11 +116,10 @@ llvm::Value* Callout::codegen() {
    * Iterate through the arguments and generate the code required for each one of them
    */
   for (auto i : args_list) {
-      auto e = i.first ? i.first : i.second;
-      auto tmp = e->codegen();
-      if (tmp == nullptr) return nullptr;
-      Args.push_back(tmp);
-      argTypes.push_back(tmp->getType());
+      auto e = i.first ? i.first->codegenf() : i.second->codegen();
+      if (e == nullptr) return nullptr;
+      Args.push_back(e);
+      argTypes.push_back(e->getType());
   }
   /* Generate the code for the function execution */
   llvm::ArrayRef<llvm::Type *> argsRef(argTypes);

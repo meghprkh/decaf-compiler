@@ -1,5 +1,12 @@
 #include "exprs.hpp"
 
+llvm::Value* Expr::codegenf() {
+  auto e = this->codegen();
+  if (e->getType()->isPointerTy())
+    e = mllvm->Builder->CreateLoad(e);
+  return e;
+}
+
 ArithExpr::ArithExpr(Expr* _l, ArithOp _op, Expr* _r) {
   l = _l;
   op = _op;
@@ -162,8 +169,8 @@ void ParenthizedExpr::traverse() {
 }
 
 llvm::Value* ArithExpr::codegen() {
-  llvm::Value *left = l->codegen();
-  llvm::Value *right = r->codegen();
+  llvm::Value *left = l->codegenf();
+  llvm::Value *right = r->codegenf();
   llvm::Value *v = nullptr;
   switch (op) {
     case ArithOp::add : v = mllvm->Builder->CreateAdd(left, right, "addexpr"); break;
@@ -176,8 +183,8 @@ llvm::Value* ArithExpr::codegen() {
 }
 
 llvm::Value* RelExpr::codegen() {
-  llvm::Value *left = l->codegen();
-  llvm::Value *right = r->codegen();
+  llvm::Value *left = l->codegenf();
+  llvm::Value *right = r->codegenf();
   llvm::Value *v = nullptr;
   switch (op) {
     case RelOp::lt : v = mllvm->Builder->CreateICmpSLT(left, right, "ltexpr"); break;
@@ -189,8 +196,8 @@ llvm::Value* RelExpr::codegen() {
 }
 
 llvm::Value* EqExpr::codegen() {
-  llvm::Value *left = l->codegen();
-  llvm::Value *right = r->codegen();
+  llvm::Value *left = l->codegenf();
+  llvm::Value *right = r->codegenf();
   llvm::Value *v = nullptr;
   switch (op) {
     case EqOp::eq : v = mllvm->Builder->CreateICmpEQ(left, right, "eqexpr"); break;
@@ -200,8 +207,8 @@ llvm::Value* EqExpr::codegen() {
 }
 
 llvm::Value* CondExpr::codegen() {
-  llvm::Value *left = l->codegen();
-  llvm::Value *right = r->codegen();
+  llvm::Value *left = l->codegenf();
+  llvm::Value *right = r->codegenf();
   llvm::Value *v = nullptr;
   switch (op) {
     case CondOp::_and : v = mllvm->Builder->CreateAnd(left, right, "andexpr"); break;
@@ -211,15 +218,15 @@ llvm::Value* CondExpr::codegen() {
 }
 
 llvm::Value* UnaryMinusExpr::codegen() {
-  llvm::Value* v = e->codegen();
+  llvm::Value* v = e->codegenf();
   return mllvm->Builder->CreateNeg(v, "negexpr");
 }
 
 llvm::Value* UnaryNotExpr::codegen() {
-  llvm::Value* v = e->codegen();
+  llvm::Value* v = e->codegenf();
   return mllvm->Builder->CreateNot(v, "notexpr");
 }
 
 llvm::Value* ParenthizedExpr::codegen() {
-  return e->codegen();
+  return e->codegenf();
 }

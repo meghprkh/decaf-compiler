@@ -255,7 +255,7 @@ llvm::Value* Block::codegen() {
 
 llvm::Value* AssignStatement::codegen() {
   auto lhs = location->get_id();
-  auto rhs = expr->codegen();
+  auto rhs = expr->codegenf();
 
   auto val = op == AssignOp::eq ? rhs : mllvm->ctx->load(lhs);
 
@@ -277,7 +277,7 @@ llvm::Value* MethodCallStatement::codegen() {
 }
 
 llvm::Value* IfStatement::codegen() {
-  auto conditionV = condition->codegen();
+  auto conditionV = condition->codegenf();
   auto ifBB = mllvm->getBasicBlock("if");
   auto elseBB = mllvm->getBasicBlock("else");
   auto mergeBB = mllvm->getBasicBlock("ifcont");
@@ -328,7 +328,7 @@ llvm::Value* LoopStatement::codegen() {
   mllvm->Builder->CreateBr(conditionBB);
   mllvm->Builder->SetInsertPoint(conditionBB);
   auto condition = new RelExpr((Expr*) loopvar, RelOp::lt, to);
-  auto conditionV = condition->codegen();
+  auto conditionV = condition->codegenf();
 
   mllvm->Builder->CreateCondBr(conditionV, bodyBB, afterBB);
 
@@ -348,7 +348,7 @@ llvm::Value* LoopStatement::codegen() {
 }
 
 llvm::Value* ReturnStatement::codegen() {
-  if (e) return mllvm->Builder->CreateRet(e->codegen());
+  if (e) return mllvm->Builder->CreateRet(e->codegenf());
   else return mllvm->Builder->CreateRetVoid();
 }
 
