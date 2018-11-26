@@ -18,8 +18,8 @@ public:
   MLLVMContext() {};
   void newContext();
   void popContext();
-  llvm::AllocaInst* lookup(string id);
-  llvm::AllocaInst* insert(string id, Type type);
+  llvm::Value* lookup(string id);
+  llvm::Value* insert(string id, Type type);
   llvm::Value* update(llvm::Value* var, llvm::Value* val);
   llvm::Value* update(llvm::AllocaInst* var, llvm::Value* val);
   llvm::Value* update(string id, llvm::Value* val);
@@ -27,7 +27,7 @@ public:
   llvm::Value* load(llvm::AllocaInst* var);
   llvm::Value* load(string id);
 private:
-  deque<map<string, llvm::AllocaInst*> > ctx;
+  deque<map<string, llvm::Value*> > ctx;
 };
 
 struct MLLVMLoopInfo {

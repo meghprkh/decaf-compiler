@@ -17,14 +17,14 @@ llvm::BasicBlock* MLLVM::getBasicBlock(const char *desc) {
 }
 
 void MLLVMContext::newContext() {
-  ctx.push_front(map<string, llvm::AllocaInst*> ());
+  ctx.push_front(map<string, llvm::Value*> ());
 }
 
 void MLLVMContext::popContext() {
   ctx.pop_front();
 }
 
-llvm::AllocaInst* MLLVMContext::lookup(string id) {
+llvm::Value* MLLVMContext::lookup(string id) {
   for (auto m: ctx) {
     if (m.count(id)) return m[id];
   }
@@ -32,12 +32,12 @@ llvm::AllocaInst* MLLVMContext::lookup(string id) {
   return nullptr;
 }
 
-llvm::AllocaInst* MLLVMContext::insert(string id, Type type) {
+llvm::Value* MLLVMContext::insert(string id, Type type) {
   if (ctx[0].count(id)) {
     CODEGEN_ERROR("Duplicate " + id + " in same scope");
     return nullptr;
   }
-  ctx[0][id] = mllvm->getAllocaInst(id, type);
+  ctx[0][id] = (llvm::Value*) mllvm->getAllocaInst(id, type);
   return ctx[0][id];
 }
 
