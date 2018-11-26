@@ -3,6 +3,7 @@
 MLLVM::MLLVM() {
   TheModule = new llvm::Module("decaff compiler", Context);
   Builder = new llvm::IRBuilder<> (Context);
+  loops = stack<MLLVMLoopInfo>();
   ctx = new MLLVMContext();
 }
 

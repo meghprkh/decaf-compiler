@@ -227,11 +227,11 @@ bool ReturnStatement::isReturn() {
 }
 
 bool BreakStatement::isReturn() {
-  return false;
+  return true;
 }
 
 bool ContinueStatement::isReturn() {
-  return false;
+  return true;
 }
 
 
@@ -278,26 +278,27 @@ llvm::Value* IfStatement::codegen() {
   auto ifBB = mllvm->getBasicBlock("if");
   auto elseBB = mllvm->getBasicBlock("else");
   auto mergeBB = mllvm->getBasicBlock("ifcont");
+  mllvm->currentFn->getBasicBlockList().push_back(ifBB);
+  mllvm->currentFn->getBasicBlockList().push_back(elseBB);
+  mllvm->currentFn->getBasicBlockList().push_back(mergeBB);
 
   mllvm->Builder->CreateCondBr(conditionV, ifBB, elseBB);
 
   // Emit if block
   mllvm->Builder->SetInsertPoint(ifBB);
   auto ifV = if_true->codegen();
-  if (!ifV) return nullptr;
   if (!if_true->isReturn()) mllvm->Builder->CreateBr(mergeBB);
 
+  mllvm->Builder->SetInsertPoint(elseBB);
   if (if_false) {
     // Emit else block.
-    mllvm->currentFn->getBasicBlockList().push_back(elseBB);
-    mllvm->Builder->SetInsertPoint(elseBB);
     auto elseV = if_false->codegen();
-    if (!elseV) return nullptr;
     if (!if_false->isReturn()) mllvm->Builder->CreateBr(mergeBB);
+  } else {
+    mllvm->Builder->CreateBr(mergeBB);
   }
 
   // Emit merge block.
-  mllvm->currentFn->getBasicBlockList().push_back(mergeBB);
   mllvm->Builder->SetInsertPoint(mergeBB);
   return mergeBB;
 }
@@ -314,6 +315,9 @@ llvm::Value* LoopStatement::codegen() {
   mllvm->currentFn->getBasicBlockList().push_back(bodyBB);
   mllvm->currentFn->getBasicBlockList().push_back(afterBB);
   auto loopvar = (Location*) new VarLocation(id.c_str());
+
+  MLLVMLoopInfo loopinfo = {loopvar, conditionBB, bodyBB, afterBB};
+  mllvm->loops.push(loopinfo);
 
   auto start = new AssignStatement(loopvar, AssignOp::eq, from);
   start->codegen();
@@ -334,6 +338,7 @@ llvm::Value* LoopStatement::codegen() {
   }
 
   mllvm->ctx->popContext();
+  mllvm->loops.pop();
 
   mllvm->Builder->SetInsertPoint(afterBB);
   return afterBB;
@@ -345,9 +350,17 @@ llvm::Value* ReturnStatement::codegen() {
 }
 
 llvm::Value* BreakStatement::codegen() {
+  mllvm->Builder->CreateBr(mllvm->loops.top().afterBB);
   return nullptr;
 }
 
 llvm::Value* ContinueStatement::codegen() {
+  auto loop = mllvm->loops.top();
+
+  auto step = (Expr*) new IntLiteral("1");
+  auto increment = new AssignStatement(loop.loopvar, AssignOp::pe, step);
+  increment->codegen();
+
+  mllvm->Builder->CreateBr(loop.conditionBB);
   return nullptr;
 }

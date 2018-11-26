@@ -30,6 +30,13 @@ private:
   deque<map<string, llvm::AllocaInst*> > ctx;
 };
 
+struct MLLVMLoopInfo {
+  Location* loopvar;
+  llvm::BasicBlock* conditionBB;
+  llvm::BasicBlock* bodyBB;
+  llvm::BasicBlock* afterBB;
+};
+
 class MLLVM {
 public:
   llvm::LLVMContext Context;
@@ -38,6 +45,7 @@ public:
   llvm::Function* currentFn;
   MLLVM();
   MLLVMContext* ctx;
+  stack<MLLVMLoopInfo> loops;
   llvm::AllocaInst* getAllocaInst(string id, Type type);
   llvm::BasicBlock* getBasicBlock(const char* desc);
 };
