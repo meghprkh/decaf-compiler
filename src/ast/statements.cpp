@@ -238,7 +238,10 @@ bool ContinueStatement::isReturn() {
 
 llvm::Value* StatementsList::codegen() {
   llvm::Value* v;
-  for (auto s: list) v = s->codegen();
+  for (auto s: list) {
+    v = s->codegen();
+    if (s->isReturn()) break;
+  }
   return v;
 }
 
