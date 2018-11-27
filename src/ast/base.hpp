@@ -63,6 +63,7 @@ extern Context context;
 extern MLLVM* mllvm;
 
 llvm::Value* wrap(Base* body);
+llvm::Type* llvmtype(); // Returns void type
 llvm::Type* llvmtype(Type type);
 llvm::Type* llvmtype(Type* type);
 

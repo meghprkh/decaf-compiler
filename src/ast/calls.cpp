@@ -101,7 +101,10 @@ llvm::Value* MethodArgsList::codegen() {
 }
 
 llvm::Value* MethodCall::codegen() {
-  return nullptr;
+  auto _fn = mllvm->TheModule->getFunction(fn);
+  vector<llvm::Value*> _args;
+  for (auto &a : args->list) _args.push_back(a->codegen());
+  return mllvm->Builder->CreateCall(_fn, _args);
 }
 
 llvm::Value* CalloutArgsList::codegen() {

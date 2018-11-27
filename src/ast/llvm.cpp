@@ -32,6 +32,15 @@ llvm::Value* MLLVMContext::lookup(string id) {
   return nullptr;
 }
 
+llvm::Value* MLLVMContext::insert(string id, llvm::Value* val) {
+  if (ctx[0].count(id)) {
+    CODEGEN_ERROR("Duplicate " + id + " in same scope");
+    return nullptr;
+  }
+  ctx[0][id] = (llvm::Value*) val;
+  return ctx[0][id];
+}
+
 llvm::Value* MLLVMContext::insert(string id, Type type) {
   if (ctx[0].count(id)) {
     CODEGEN_ERROR("Duplicate " + id + " in same scope");

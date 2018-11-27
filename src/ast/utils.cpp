@@ -54,6 +54,11 @@ llvm::Value* wrap(Base *Body) {
   return nullptr;
 }
 
+// Return void
+llvm::Type* llvmtype() {
+  return llvm::Type::getVoidTy(mllvm->Context);
+}
+
 llvm::Type* llvmtype(Type type) {
   return llvmtype(&type);
 }

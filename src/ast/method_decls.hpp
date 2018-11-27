@@ -8,6 +8,7 @@ public:
   void traverse();
   llvm::Value* codegen();
   Type get_type() { return type; }
+  string get_id() { return id; }
 private:
   Type type;
   string id;
@@ -21,7 +22,6 @@ public:
   void traverse();
   llvm::Value* codegen();
   vector<Type> get_types();
-private:
   deque<MethodDeclArg*> args;
 };
 

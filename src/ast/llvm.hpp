@@ -20,6 +20,7 @@ public:
   void popContext();
   llvm::Value* lookup(string id);
   llvm::Value* insert(string id, Type type);
+  llvm::Value* insert(string id, llvm::Value* val);
   llvm::Value* update(llvm::Value* var, llvm::Value* val);
   llvm::Value* update(llvm::AllocaInst* var, llvm::Value* val);
   llvm::Value* update(string id, llvm::Value* val);

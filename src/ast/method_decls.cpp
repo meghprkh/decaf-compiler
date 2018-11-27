@@ -105,9 +105,44 @@ llvm::Value* MethodDeclArgs::codegen() {
 }
 
 llvm::Value* MethodDecl::codegen() {
-  return nullptr;
+  vector<llvm::Type *> param_types;
+  for (auto a: args->args) param_types.push_back(llvmtype(a->get_type()));
+  llvm::Type* ret_type = isVoid ? llvmtype() : llvmtype(type);
+
+  auto FT = llvm::FunctionType::get(ret_type, param_types, false);
+  auto F = llvm::Function::Create(FT, llvm::Function::ExternalLinkage, id, mllvm->TheModule);
+
+  // Set names for all arguments.
+  unsigned i = 0;
+  for (auto &a : F->args()) a.setName(args->args[i++]->get_id());
+
+  if (!F) return nullptr;
+  mllvm->currentFn = F;
+
+  // Create a new basic block to start insertion into.
+  auto BB = mllvm->getBasicBlock("entry");
+  mllvm->Builder->SetInsertPoint(BB);
+
+  // Record the function arguments in the NamedValues map.
+  mllvm->ctx->newContext();
+  for (auto &a : F->args()) {
+    mllvm->ctx->insert(a.getName(), &a);
+  }
+
+  block->codegen();
+  if (!block->isReturn()) {
+    if (isVoid) return mllvm->Builder->CreateRetVoid();
+    else return mllvm->Builder->CreateRet(IntLiteral("0").codegen());
+  }
+
+  llvm::verifyFunction(*F);
+
+  mllvm->ctx->popContext();
+  return F;
 }
 
 llvm::Value* MethodDecls::codegen() {
-  return nullptr;
+  llvm::Value* v;
+  for (auto m: list) v = m->codegen();
+  return v;
 }

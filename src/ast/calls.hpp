@@ -11,7 +11,6 @@ public:
   void traverse();
   void traverse(string method_name, vector<Type> types);
   llvm::Value* codegen();
-private:
   deque<Expr*> list;
 };
 
