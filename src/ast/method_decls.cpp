@@ -130,10 +130,10 @@ llvm::Value* MethodDecl::codegen() {
   }
 
   block->codegen();
-  // if (!block->isReturn()) {
-  //   if (isVoid) return mllvm->Builder->CreateRetVoid();
+  if (!block->isReturn()) {
+    if (isVoid) return mllvm->Builder->CreateRetVoid();
   //   else return mllvm->Builder->CreateRet(IntLiteral("0").codegen());
-  // }
+  }
 
   if (llvm::verifyFunction(*F))
     CODEGEN_ERROR("verifyFunction error in function \"" + id + "\" (check for missing returns)");
