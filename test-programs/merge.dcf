@@ -2,8 +2,8 @@ class Program {
   int arr[100], barr[100];
   int N;
 
-  void copyback() {
-    for i = 0, N-1 {
+  void copyback(int l, int r) {
+    for i = l, r {
       arr[i] = barr[i];
     }
   }
@@ -14,7 +14,7 @@ class Program {
     j = mid;
 
     for k = l, r {
-      if (i < mid && (j > r || arr[i] <= arr[j])) {
+      if (i < mid && (j >= r || arr[i] <= arr[j])) {
         barr[k] = arr[i];
         i = i + 1;
       } else {
@@ -23,19 +23,19 @@ class Program {
       }
     }
 
-    copyback();
+    copyback(l, r);
   }
 
   void mergesort(int l, int r) {
     int mid;
 
-    if (l == r) {
+    if (r - l == 1 || r - l == 0) {
       return;
     }
 
     mid = l + (r - l) / 2;
     mergesort(l, mid);
-    mergesort(mid+1, r);
+    mergesort(mid, r);
 
     merge(l, mid, r);
   }
@@ -59,7 +59,7 @@ class Program {
       callout("printf", "%d\n", arr[i]);
     }
 
-    mergesort(0, N - 1);
+    mergesort(0, N);
 
     callout("printf", "\nAfter sorting\n");
     for i = 0, N {
