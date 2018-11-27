@@ -1,5 +1,23 @@
 #include "base.hpp"
 
+void strReplaceAll(string& data, string search, string replace) {
+  size_t pos = data.find(search);
+  while(pos != string::npos) {
+    data.replace(pos, search.size(), replace);
+    pos = data.find(search, pos + search.size());
+  }
+}
+
+string escaped(const char *s) {
+  string toret = string(s);
+  strReplaceAll(toret, string("\\\""), string("\""));
+  strReplaceAll(toret, string("\\\'"), string("\'"));
+  strReplaceAll(toret, string("\\\\"), string("\\"));
+  strReplaceAll(toret, string("\\t"), string("\t"));
+  strReplaceAll(toret, string("\\n"), string("\n"));
+  return toret;
+}
+
 string typeToString(Type type) {
   switch (type) {
     case Type::_int : return string("int"); break;

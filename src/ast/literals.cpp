@@ -5,7 +5,7 @@ IntLiteral::IntLiteral(const char *x) {
 }
 
 CharLiteral::CharLiteral(const char *x) {
-  value = x[0];
+  value = escaped(x)[0];
 }
 
 BoolLiteral::BoolLiteral(const char *x) {
@@ -13,7 +13,7 @@ BoolLiteral::BoolLiteral(const char *x) {
 }
 
 StringLiteral::StringLiteral(const char *x) {
-  value = string(x);
+  value = escaped(x);
 }
 
 int IntLiteral::print() {

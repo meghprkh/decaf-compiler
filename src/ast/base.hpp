@@ -14,6 +14,7 @@ int get_lineno(); // default fallback which uses global lineno (inaccurate)
 #define CONTEXT_LOOKUP(x) (lineno = get_lineno()) ? context.lookup(x) : CtxDataType()
 #define CONTEXT_INSERT(x, y) (lineno = get_lineno()) ? context.insert(x, y) : false
 
+string escaped(const char* s);
 
 extern int pidcount;
 int printText(int v);
