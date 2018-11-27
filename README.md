@@ -37,7 +37,13 @@ make
 
 ### Running: 
 ```
+cd src
 ./helper.sh filename
+```
+eg.
+```
+cd src
+./helper.sh ../test-programs/binary.dcf
 ```
 
 ## Outputting AST graphs
