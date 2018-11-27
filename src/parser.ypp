@@ -258,12 +258,13 @@ int main(int argc, char **argv)
 	// printf("graph TD\n");
 	// start->print();
 
+	errors.clear();
+	start->codegen();
 	if (!errors.empty()) {
 		for (auto e: errors) e.print();
 		exit(1);
 	}
 
-	start->codegen();
 	mllvm->TheModule->print(llvm::errs(), nullptr);
 }
 

@@ -289,13 +289,13 @@ llvm::Value* IfStatement::codegen() {
 
   // Emit if block
   mllvm->Builder->SetInsertPoint(ifBB);
-  auto ifV = if_true->codegen();
+  if_true->codegen();
   if (!if_true->isReturn()) mllvm->Builder->CreateBr(mergeBB);
 
   mllvm->Builder->SetInsertPoint(elseBB);
   if (if_false) {
     // Emit else block.
-    auto elseV = if_false->codegen();
+    if_false->codegen();
     if (!if_false->isReturn()) mllvm->Builder->CreateBr(mergeBB);
   } else {
     mllvm->Builder->CreateBr(mergeBB);

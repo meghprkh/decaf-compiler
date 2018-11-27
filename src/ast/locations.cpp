@@ -47,5 +47,5 @@ llvm::Value* ArrLocation::codegen() {
   vector<llvm::Value *> array_index;
   array_index.push_back(mllvm->Builder->getInt32(0));
   array_index.push_back(_index);
-  return mllvm->Builder->CreateGEP(_var, array_index, id + "_index");
+  return mllvm->Builder->CreateInBoundsGEP(_var, array_index, id + "_index");
 }
