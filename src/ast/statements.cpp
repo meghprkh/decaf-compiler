@@ -215,7 +215,7 @@ bool MethodCallStatement::isReturn() {
 }
 
 bool IfStatement::isReturn() {
-  return false;
+  return if_true->isReturn() && if_false && if_false->isReturn();
 }
 
 bool LoopStatement::isReturn() {
@@ -283,7 +283,8 @@ llvm::Value* IfStatement::codegen() {
   auto mergeBB = mllvm->getBasicBlock("ifcont");
   mllvm->currentFn->getBasicBlockList().push_back(ifBB);
   mllvm->currentFn->getBasicBlockList().push_back(elseBB);
-  mllvm->currentFn->getBasicBlockList().push_back(mergeBB);
+  if (!this->isReturn())
+    mllvm->currentFn->getBasicBlockList().push_back(mergeBB);
 
   mllvm->Builder->CreateCondBr(conditionV, ifBB, elseBB);
 
