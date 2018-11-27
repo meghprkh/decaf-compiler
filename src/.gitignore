@@ -1,7 +1,7 @@
 lex.yy.c
 parser.tab.cpp
 parser.tab.hpp
-decaf
+decaff
 parser
 parser.output
 tmp*

@@ -11,8 +11,8 @@ for f in `ls ast/*.cpp`; do
   ofiles="$ofiles ${bf%.*}.o"
 done
 
-echo "parser: ps.o $ofiles"
-echo "\tg++ -g -o decaf $flags *.o -ll\n"
+echo "decaff: ps.o $ofiles"
+echo "\tg++ -g -o decaff $flags *.o -ll\n"
 
 echo "ps.o: parser.tab.cpp lex.yy.c"
 echo "\tg++ -c $flags parser.tab.cpp lex.yy.c -ll\n"
@@ -29,4 +29,4 @@ for f in `ls ast/*.cpp`; do
   echo "\tg++ $flags -c $f\n"
 done
 
-echo "clean:\n\trm -f decaf parser.tab.* lex.yy.c **/*.gch *.o"
+echo "clean:\n\trm -f decaff parser.tab.* lex.yy.c **/*.gch *.o"

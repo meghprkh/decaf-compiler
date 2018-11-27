@@ -9,7 +9,7 @@ if [ $# -eq 0 ]; then
   FILE="tmphelper"
 fi
 
-./decaf "$FILE" 2>tmp.ll
+./decaff "$FILE" 2>tmp.ll
 # mmdc -i tmp.mermaid -o tmpout.svg
 # firefox tmpout.svg 2>/dev/null 1>&2
 echo; echo; echo '###### LLVM IR ######'; echo; echo
