@@ -42,5 +42,10 @@ llvm::Value* VarLocation::codegen() {
 }
 
 llvm::Value* ArrLocation::codegen() {
-  return nullptr;
+  auto _var = mllvm->ctx->lookup(id);
+  auto _index = index->codegenf();
+  vector<llvm::Value *> array_index;
+  array_index.push_back(mllvm->Builder->getInt32(0));
+  array_index.push_back(_index);
+  return mllvm->Builder->CreateGEP(_var, array_index, id + "_index");
 }

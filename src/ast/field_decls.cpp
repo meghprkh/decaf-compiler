@@ -83,6 +83,12 @@ llvm::Value* FieldDeclArgs::codegen(Type type) {
               llvm::GlobalValue::ExternalLinkage, nullptr, id);
     gv->setInitializer(llvm::Constant::getNullValue(ty));
   }
+  for (auto p: arrs) {
+    auto array_type = llvm::ArrayType::get(ty, p.second);
+    auto gv = new llvm::GlobalVariable(*(mllvm->TheModule), array_type, false,
+              llvm::GlobalValue::ExternalLinkage, nullptr, p.first);
+    gv->setInitializer(llvm::ConstantAggregateZero::get(array_type));
+  }
   return nullptr;
 }
 

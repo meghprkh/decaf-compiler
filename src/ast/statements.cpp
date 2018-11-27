@@ -254,7 +254,7 @@ llvm::Value* Block::codegen() {
 }
 
 llvm::Value* AssignStatement::codegen() {
-  auto lhs = location->get_id();
+  auto lhs = location->codegen();
   auto rhs = expr->codegenf();
 
   auto val = op == AssignOp::eq ? rhs : mllvm->ctx->load(lhs);
