@@ -30,7 +30,6 @@ Context context;
 %left '*' '/' '%'
 %nonassoc '!'
 
-%type <base> start
 %type <base> program
 
 %type <field_decls> field_decls;
@@ -248,9 +247,7 @@ int main(int argc, char **argv)
 	yyin = fopen(argv[1], "r");
 	yyparse();
 
-	// context.newContext();
-	// start->traverse();
-	// context.popContext();
+	start->traverse();
 
 	if (!errors.empty()) {
 		for (auto e: errors) e.print();
@@ -260,6 +257,11 @@ int main(int argc, char **argv)
 	pidcount = 0;
 	// printf("graph TD\n");
 	// start->print();
+
+	if (!errors.empty()) {
+		for (auto e: errors) e.print();
+		exit(1);
+	}
 
 	start->codegen();
 	mllvm->TheModule->print(llvm::errs(), nullptr);

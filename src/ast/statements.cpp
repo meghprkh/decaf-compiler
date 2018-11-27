@@ -325,10 +325,12 @@ llvm::Value* LoopStatement::codegen() {
   auto start = new AssignStatement(loopvar, AssignOp::eq, from);
   start->codegen();
 
+  auto tmpvar = (llvm::Value*) mllvm->getAllocaInst(string("tmpvar"), Type::_int);
+  mllvm->ctx->update(tmpvar, to->codegenf());
   mllvm->Builder->CreateBr(conditionBB);
+
   mllvm->Builder->SetInsertPoint(conditionBB);
-  auto condition = new RelExpr((Expr*) loopvar, RelOp::lt, to);
-  auto conditionV = condition->codegenf();
+  auto conditionV = mllvm->Builder->CreateICmpSLT(loopvar->codegenf(), mllvm->ctx->load(tmpvar), "ltexpr");
 
   mllvm->Builder->CreateCondBr(conditionV, bodyBB, afterBB);
 

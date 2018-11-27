@@ -41,7 +41,7 @@ class Callout: public Expr {
 public:
   Callout(const char *_fn, CalloutArgsList* _args);
   int print();
-  Type get_type() { return Type::_boolean; }
+  Type get_type() { return Type::_int; }
   void traverse();
   llvm::Value* codegen();
 private:
