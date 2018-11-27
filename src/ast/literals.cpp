@@ -1,7 +1,7 @@
 #include "literals.hpp"
 
 IntLiteral::IntLiteral(const char *x) {
-  value = atoi(x);
+  value = (int) strtol(x, NULL, 0);
 }
 
 CharLiteral::CharLiteral(const char *x) {
