@@ -16,6 +16,7 @@ int get_lineno(); // default fallback which uses global lineno (inaccurate)
 
 string escaped(const char* s);
 
+extern FILE* mermaidPrint;
 extern int pidcount;
 int printText(int v);
 int printText(char v);

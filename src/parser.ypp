@@ -9,6 +9,7 @@ int lineno = 0;
 
 class Base* start;
 extern union Node yylval;
+FILE* mermaidPrint;
 int pidcount;
 vector<Error> errors;
 MLLVM* mllvm = new MLLVM();
@@ -255,8 +256,10 @@ int main(int argc, char **argv)
 	}
 
 	pidcount = 0;
-	// printf("graph TD\n");
-	// start->print();
+	mermaidPrint = fopen("tmp.mermaid", "w");
+	fprintf(mermaidPrint, "graph TD\n");
+	start->print();
+	fclose(mermaidPrint);
 
 	errors.clear();
 	start->codegen();
