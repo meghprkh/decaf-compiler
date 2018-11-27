@@ -28,6 +28,8 @@ llvm::Value* MLLVMContext::lookup(string id) {
   for (auto m: ctx) {
     if (m.count(id)) return m[id];
   }
+  auto v = mllvm->TheModule->getNamedGlobal(id);
+  if (v) return v;
   CODEGEN_ERROR(id + " not found");
   return nullptr;
 }

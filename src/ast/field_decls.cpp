@@ -77,13 +77,21 @@ llvm::Value* FieldDeclArgs::codegen() {
 }
 
 llvm::Value* FieldDeclArgs::codegen(Type type) {
+  auto ty = llvmtype(type);
+  for (auto id: vars) {
+    auto gv = new llvm::GlobalVariable(*(mllvm->TheModule), ty, false,
+              llvm::GlobalValue::ExternalLinkage, nullptr, id);
+    gv->setInitializer(llvm::Constant::getNullValue(ty));
+  }
   return nullptr;
 }
 
 llvm::Value* FieldDecl::codegen() {
+  args->codegen(type);
   return nullptr;
 }
 
 llvm::Value* FieldDecls::codegen() {
+  for (auto &l: list) l->codegen();
   return nullptr;
 }

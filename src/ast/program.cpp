@@ -24,5 +24,7 @@ void Program::traverse() {
 }
 
 llvm::Value* Program::codegen() {
+  field_decls->codegen();
+  method_decls->codegen();
   return nullptr;
 }

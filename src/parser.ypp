@@ -68,10 +68,6 @@ Context context;
 
 %%
 
-start
-	: method_decls { $$ = $1; start = $$; }
-	;
-
 program
 	: CLASS ID '{' field_decls method_decls '}' { $$ = new Program($4, $5); start = $$; }
 	;
