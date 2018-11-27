@@ -4,7 +4,7 @@ void strReplaceAll(string& data, string search, string replace) {
   size_t pos = data.find(search);
   while(pos != string::npos) {
     data.replace(pos, search.size(), replace);
-    pos = data.find(search, pos + search.size());
+    pos = data.find(search, pos + replace.size());
   }
 }
 
