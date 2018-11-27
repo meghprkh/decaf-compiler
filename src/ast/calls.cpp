@@ -111,7 +111,23 @@ llvm::Value* CalloutArgsList::codegen() {
   return nullptr;
 }
 
+llvm::Value* get_exit() {
+  std::vector<llvm::Type *> argTypes;
+  std::vector<llvm::Value *> Args;
+  auto e = (new IntLiteral(1))->codegenf();
+  Args.push_back(e);
+  argTypes.push_back(e->getType());
+  llvm::ArrayRef<llvm::Type *> argsRef(argTypes);
+  llvm::ArrayRef<llvm::Value *> funcargs(Args);
+  llvm::FunctionType *FType = llvm::FunctionType::get(llvmtype(), argsRef, false);
+  llvm::Constant *func = mllvm->TheModule->getOrInsertFunction("exit", FType);
+  mllvm->Builder->CreateCall(func, funcargs);
+  return nullptr;
+}
+
 llvm::Value* Callout::codegen() {
+  if (fn == "exit") return get_exit();
+
   std::vector<llvm::Type *> argTypes;
   std::vector<llvm::Value *> Args;
   auto args_list = args->list;
