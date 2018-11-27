@@ -12,6 +12,7 @@ public:
 class IntLiteral: public Literal {
 public:
   IntLiteral(const char *x);
+  IntLiteral(int _value);
   int print();
   Type get_type();
   llvm::Value* codegen();

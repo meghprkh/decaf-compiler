@@ -87,6 +87,7 @@ llvm::Value* FieldDeclArgs::codegen(Type type) {
     auto array_type = llvm::ArrayType::get(ty, p.second);
     auto gv = new llvm::GlobalVariable(*(mllvm->TheModule), array_type, false,
               llvm::GlobalValue::ExternalLinkage, nullptr, p.first);
+    mllvm->ctx->update_arr_size(p.first, p.second);
     gv->setInitializer(llvm::ConstantAggregateZero::get(array_type));
   }
   return nullptr;

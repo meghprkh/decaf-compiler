@@ -28,8 +28,11 @@ public:
   llvm::Value* load(llvm::Value* var);
   llvm::Value* load(llvm::AllocaInst* var);
   llvm::Value* load(string id);
+  int update_arr_size(string arr, int size);
+  int get_arr_size(string arr);
 private:
   deque<map<string, llvm::Value*> > ctx;
+  map<string, int> arr_size;
 };
 
 struct MLLVMLoopInfo {

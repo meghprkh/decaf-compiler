@@ -75,3 +75,12 @@ llvm::Value* MLLVMContext::load(llvm::AllocaInst* var) {
 llvm::Value* MLLVMContext::load(string id) {
   return this->load(this->lookup(id));
 }
+
+int MLLVMContext::update_arr_size(string arr, int size) {
+  arr_size[arr] = size;
+  return size;
+}
+
+int MLLVMContext::get_arr_size(string arr) {
+  return arr_size[arr];
+}

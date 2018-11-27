@@ -4,6 +4,10 @@ IntLiteral::IntLiteral(const char *x) {
   value = (int) strtol(x, NULL, 0);
 }
 
+IntLiteral::IntLiteral(int _value) {
+  value = _value;
+}
+
 CharLiteral::CharLiteral(const char *x) {
   value = escaped(x)[0];
 }
