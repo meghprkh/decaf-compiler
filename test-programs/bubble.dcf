@@ -13,7 +13,7 @@ class Program {
     boolean swapped;
     for i = 0, 2 {
       swapped = false;
-      for i = 1, N - 1 {
+      for i = 1, N {
         if (arr[i - 1] > arr[i]) {
           swap(i - 1, i);
           swapped = true;
@@ -26,7 +26,7 @@ class Program {
       }
     }
   }
-    
+
   void main() {
     int N;
     N = 10;
@@ -45,7 +45,7 @@ class Program {
     bubsort(N);
 
     callout("printf", "Sorted array: ");
-    for i = 0, N - 1 {
+    for i = 0, N {
       callout("printf", "%d ", arr[i]);
     }
     callout("printf", "\n");
